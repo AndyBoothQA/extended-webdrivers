@@ -1,0 +1,129 @@
+{
+    "remote": {
+        "command_executor": "http://127.0.0.1:4444/wd/hub",
+        "desired_capabilities": null,
+        "browser_profile": null,
+        "proxy": null,
+        "keep_alive": false,
+        "file_detector": null,
+        "options": null
+    },
+    "chrome": {
+        "executable_path": "chromedriver",
+        "port": 0,
+        "options": {
+            "arguments": [
+                "--disable-infobars",
+                "--start-maximized",
+                "--disable-popup-blocking"
+            ],
+            "experimental_options": {
+                "w3c": false,
+                "prefs": {
+                    "profile.default_content_setting_values.geolocation": 1
+                },
+                "mobileEmulation": {
+                    "deviceMetrics": {
+                        "width": 414,
+                        "height": 736,
+                        "pixelRatio": 3.0,
+                        "touch": true
+                    },
+                    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+                }
+            },
+            "capabilities": null
+        },
+        "service_args": null,
+        "desired_capabilities": null,
+        "service_log_path": null,
+        "keep_alive": true
+    },
+    "edge": {
+        "executable_path": "MicrosoftWebDriver.exe",
+        "capabilities": null,
+        "port": 0,
+        "verbose": false,
+        "service_log_path": null,
+        "log_path": null,
+        "keep_alive": false
+    },
+    "firefox": {
+        "firefox_profile": {
+            "preferences": {
+                "browser.popups.showPopupBlocker": false
+            }
+        },
+        "firefox_binary": null,
+        "timeout": 30,
+        "capabilities": null,
+        "proxy": null,
+        "executable_path": "geckodriver",
+        "options": null,
+        "service_log_path": "geckodriver.log",
+        "firefox_options": null,
+        "service_args": null,
+        "desired_capabilities": null,
+        "log_path": null,
+        "keep_alive": true
+    },
+    "ie": {
+        "executable_path": "IEDriverServer.exe",
+        "capabilities": null,
+        "port": 0,
+        "timeout": 30,
+        "host": null,
+        "log_level": null,
+        "service_log_path": null,
+        "options": null,
+        "ie_options": {
+            "capabilities": {
+                "browserstack.ie.enablePopups": true
+            },
+            "additional_options": null
+        },
+        "desired_capabilities": null,
+        "log_file": null
+    },
+    "safari": {
+        "port": 0,
+        "executable_path": "/usr/bin/safaridriver",
+        "reuse_service": false,
+        "desired_capabilities": {
+            "browserName": "safari",
+            "version": "",
+            "platform": "MAC"
+        },
+        "quiet": false
+    },
+    "opera": {
+        "executable_path": null,
+        "port": 0,
+        "options": null,
+        "service_args": null,
+        "desired_capabilities": null,
+        "service_log_path": null,
+        "opera_options": null
+    },
+    "android": {
+        "host": "localhost",
+        "port": 4444,
+        "desired_capabilities": {
+            "browserName": "android",
+            "version": "",
+            "platform": "ANDROID"
+        }
+    },
+    "phantomjs": {
+        "executable_path": "phantomjs",
+        "port": 0,
+        "desired_capabilities": {
+            "browserName": "phantomjs",
+            "version": "",
+            "platform": "ANY",
+            "javascriptEnabled": true
+        },
+        "service_args": null,
+        "service_log_path": null
+    }
+}

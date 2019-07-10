@@ -1,0 +1,1 @@
+Extends the functionality of selenium webdrivers in Python
