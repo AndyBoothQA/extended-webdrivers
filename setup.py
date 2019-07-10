@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="extended-webdrivers",
-    version="0.0.1",
+    version="0.0.3",
     author="Dillon Miller",
     author_email="dillon.miller@swiftpage.com",
-    description="Extends the functionality of selenium webdrivers in Python.",
+    description="Extends the functionality of selenium webdriver.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dillonm197/extended-webdrivers",
