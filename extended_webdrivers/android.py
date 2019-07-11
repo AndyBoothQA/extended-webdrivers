@@ -1,6 +1,6 @@
 import selenium.webdriver
 
-from . import ExtendedWebdriver
+from .extended_webdriver import ExtendedWebdriver
 
 
 class Android(selenium.webdriver.Android, ExtendedWebdriver):

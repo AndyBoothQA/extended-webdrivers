@@ -1,4 +1,4 @@
-from . import ExtendedWebdriver
+from .extended_webdriver import ExtendedWebdriver
 
 
 class Remote(ExtendedWebdriver):

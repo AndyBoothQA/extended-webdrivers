@@ -5,7 +5,7 @@ import selenium.webdriver
 from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver.remote.webelement import WebElement
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('extended_webdrivers')
 
 
 class ExtendedWebdriver(selenium.webdriver.Remote):
@@ -107,7 +107,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         LOGGER.debug(f'wait_for_stable() timed out after {timeout} seconds.')
         return None
 
-    def set_cordinates(self, latitude, longitude) -> None:
+    def set_cordinates(self, cords: tuple) -> None:
         """
         Sets the geolocation for location services.
         """
@@ -120,9 +120,9 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
                 }
             };
             success(position);
-        }''' % (latitude, longitude))
+        }''' % cords)
 
-    def get_cordinates(self) -> dict:
+    def get_cordinates(self) -> tuple:
         latitude = self.execute_script('''
         latitude = ""
         window.navigator.geolocation.getCurrentPosition(function(pos) {
@@ -139,7 +139,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         return longitude
         ''')
 
-        return {'latitude': latitude, 'longitude': longitude}
+        return (latitude, longitude)
 
     def get_current_frame(self) -> WebElement:
         """

@@ -5,7 +5,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "command_executor": "http://127.0.0.1:4444/wd/hub",
         "desired_capabilities": null,
         "browser_profile": null,
@@ -20,7 +21,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "executable_path": "chromedriver",
         "port": 0,
         "options": {
@@ -43,7 +45,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "executable_path": "MicrosoftWebDriver.exe",
         "capabilities": null,
         "port": 0,
@@ -58,7 +61,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "firefox_profile": {
             "preferences": {
                 "browser.popups.showPopupBlocker": false
@@ -83,7 +87,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "executable_path": "IEDriverServer.exe",
         "capabilities": null,
         "port": 0,
@@ -107,7 +112,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "port": 0,
         "executable_path": "/usr/bin/safaridriver",
         "reuse_service": false,
@@ -124,7 +130,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "executable_path": null,
         "port": 0,
         "options": null,
@@ -139,7 +146,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "host": "localhost",
         "port": 4444,
         "desired_capabilities": {
@@ -154,7 +162,8 @@
             1080
         ],
         "full_screen": true,
-        "implicit_wait": 0,
+        "implicitly_wait": 0,
+        "coordinates": null,
         "executable_path": "phantomjs",
         "port": 0,
         "desired_capabilities": {
