@@ -1,16 +1,15 @@
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 import json
-import shutil
 import os
+import shutil
 
 from selenium import webdriver
-
-from .extended_webdriver import ExtendedWebdriver
 
 from .android import Android
 from .chrome import Chrome
 from .edge import Edge
+from .extended_webdriver import ExtendedWebdriver
 from .firefox import Firefox
 from .ie import Ie
 from .opera import Opera
@@ -19,6 +18,10 @@ from .remote import Remote
 
 DEFAULT_CONFIG = 'webdrivers-default.json'
 MOBILE_CONFIG = 'webdrivers-mobile.json'
+
+
+class InvalidWebdriver(Exception):
+    pass
 
 
 def create_driver_config(name: str):
@@ -36,14 +39,14 @@ def create_driver_config(name: str):
                      DEFAULT_CONFIG), os.path.join(os.getcwd(), name))
 
 
-def load_driver_from_config(driver: str, config_name: str = DEFAULT_CONFIG
+def load_driver_from_config(name: str, config_name: str = DEFAULT_CONFIG
                             ) -> ExtendedWebdriver:
     """
     Loads a driver with settings from a config file.
 
     Parameters
     ----------
-    driver - The name of the driver to load.
+    name - The name of the driver to load.
     config_name - The name of the config file to load. This first searches for
                   default config files in the extended_webdrivers package. If
                   it can't find any, it then searches the current directory.
@@ -57,23 +60,23 @@ def load_driver_from_config(driver: str, config_name: str = DEFAULT_CONFIG
         raise FileNotFoundError('Config file not found.')
     with open(config_name, 'r') as config_file:
         data = json.load(config_file)
-        return load_driver(driver, data)
+        return load_driver(name, data)
 
 
-def load_driver_from_json(driver: str, data: str) -> ExtendedWebdriver:
+def load_driver_from_json(name: str, data: str) -> ExtendedWebdriver:
     """
     Loads a driver with settings from a json string.
 
     Parameters
     ----------
-    driver - The name of the driver to load.
+    name - The name of the driver to load.
     data - The raw json string.
     """
     data = json.loads(data)
-    return load_driver(driver, data)
+    return load_driver(name, data)
 
 
-def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
+def load_driver(name: str, data: dict) -> ExtendedWebdriver:
     """
     Loads a driver with settings from a dictionary.
 
@@ -82,9 +85,10 @@ def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
     driver - The name of the driver to load.
     data - The raw json string.
     """
-    if driver == 'remote':
-        return Remote(command_executor=data['remote']['command_executor'])
-    elif driver == 'chrome':
+    name = name.lower()
+    if name == 'remote':
+        driver = Remote(command_executor=data['remote']['command_executor'])
+    elif name == 'chrome':
         options = webdriver.ChromeOptions()
         if isinstance(data['chrome']['options']['arguments'], dict):
             for argument in data['chrome']['options']['arguments']:
@@ -99,7 +103,7 @@ def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
             for capability in data['chrome']['options']['capabilities']:
                 options.set_capability = data['chrome']['options'][
                     'capabilities'][capability]
-        return Chrome(
+        driver = Chrome(
             executable_path=data['chrome']['executable_path'],
             port=data['chrome']['port'],
             options=options,
@@ -108,7 +112,7 @@ def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
             service_log_path=data['chrome']['service_log_path'],
             chrome_options=None,
             keep_alive=data['chrome']['keep_alive'])
-    elif driver == 'firefox':
+    elif name == 'firefox':
         options = webdriver.FirefoxOptions()
         if isinstance(data['firefox']['options']['arguments'], dict):
             for argument in data['firefox']['options']['arguments']:
@@ -118,7 +122,7 @@ def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
             for k, v in data['firefox']['firefox_profile'][
                     'preferences'].items():
                 firefox_profile.set_preference(k, v)
-        return Firefox(
+        driver = Firefox(
             firefox_profile=firefox_profile,
             firefox_binary=data['firefox']['firefox_binary'],
             timeout=data['firefox']['timeout'],
@@ -131,20 +135,20 @@ def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
             service_args=data['firefox']['service_args'],
             desired_capabilities=data['firefox']['desired_capabilities'],
             log_path=data['firefox']['log_path'])
-    elif driver == 'edge':
-        return Edge(executable_path=data['edge']['executable_path'],
-                    capabilities=data['edge']['capabilities'],
-                    port=data['edge']['port'],
-                    verbose=data['edge']['verbose'],
-                    service_log_path=data['edge']['service_log_path'],
-                    log_path=data['edge']['log_path'],
-                    keep_alive=data['edge']['keep_alive'])
-    elif driver == 'android':
-        return Android(
+    elif name == 'edge':
+        driver = Edge(executable_path=data['edge']['executable_path'],
+                      capabilities=data['edge']['capabilities'],
+                      port=data['edge']['port'],
+                      verbose=data['edge']['verbose'],
+                      service_log_path=data['edge']['service_log_path'],
+                      log_path=data['edge']['log_path'],
+                      keep_alive=data['edge']['keep_alive'])
+    elif name == 'android':
+        driver = Android(
             host=data['android']['host'],
             port=data['android']['port'],
             desired_capabilities=data['android']['desired_capabilities'])
-    elif driver == 'ie' or driver == 'iexplore':
+    elif name == 'ie' or name == 'iexplore':
         ie_options = webdriver.IeOptions()
         if isinstance(data['ie']['ie_options']['capabilities'], dict):
             for k, v in data['ie']['ie_options']['capabilities'].items():
@@ -154,32 +158,40 @@ def load_driver(driver: str, data: dict) -> ExtendedWebdriver:
                     'additional_options']:
                 ie_options.add_additional_option(additional_option.name,
                                                  additional_option.value)
-        return Ie(restricted_mode=False,
-                  executable_path=data['ie']['executable_path'],
-                  capabilities=data['ie']['capabilities'],
-                  port=data['ie']['port'],
-                  timeout=data['ie']['timeout'],
-                  host=data['ie']['host'],
-                  log_level=data['ie']['log_level'],
-                  service_log_path=data['ie']['service_log_path'],
-                  options=data['ie']['options'],
-                  ie_options=ie_options,
-                  desired_capabilities=data['ie']['desired_capabilities'],
-                  log_file=data['ie']['log_file'],
-                  keep_alive=data['ie']['keep_alive'])
-    elif driver == 'opera':
-        return Opera(
+        driver = Ie(restricted_mode=False,
+                    executable_path=data['ie']['executable_path'],
+                    capabilities=data['ie']['capabilities'],
+                    port=data['ie']['port'],
+                    timeout=data['ie']['timeout'],
+                    host=data['ie']['host'],
+                    log_level=data['ie']['log_level'],
+                    service_log_path=data['ie']['service_log_path'],
+                    options=data['ie']['options'],
+                    ie_options=ie_options,
+                    desired_capabilities=data['ie']['desired_capabilities'],
+                    log_file=data['ie']['log_file'],
+                    keep_alive=data['ie']['keep_alive'])
+    elif name == 'opera':
+        driver = Opera(
             desired_capabilities=data['opera']['desired_capabilities'],
             executable_path=data['opera']['executable_path'],
             port=data['opera']['port'],
             service_log_path=data['opera']['service_log_path'],
             service_args=data['opera']['service_args'],
             options=data['opera']['options'])
-    elif driver == 'phantomjs':
-        return PhantomJS(
+    elif name == 'phantomjs':
+        driver = PhantomJS(
             executable_path=data['phantomjs']['executable_path'],
             port=data['phantomjs']['port'],
             desired_capabilities=json.dumps(
                 data['phantomjs']['desired_capabilities']),
             service_args=data['phantomjs']['service_args'],
             service_log_path=data['phantomjs']['service_log_path'])
+    else:
+        raise InvalidWebdriver(f'{name} is an invalid webdriver.')
+
+    driver.set_window_size(data[name]['size'][0], data[name]['size'][1])
+    if data[name]['full-screen'] == True:
+        driver.maximize_window()
+
+    return driver

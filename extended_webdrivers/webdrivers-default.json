@@ -1,5 +1,11 @@
 {
     "remote": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "command_executor": "http://127.0.0.1:4444/wd/hub",
         "desired_capabilities": null,
         "browser_profile": null,
@@ -9,6 +15,12 @@
         "options": null
     },
     "chrome": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "executable_path": "chromedriver",
         "port": 0,
         "options": {
@@ -26,6 +38,12 @@
         "keep_alive": true
     },
     "edge": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "executable_path": "MicrosoftWebDriver.exe",
         "capabilities": null,
         "port": 0,
@@ -35,6 +53,12 @@
         "keep_alive": false
     },
     "firefox": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "firefox_profile": {
             "preferences": {
                 "browser.popups.showPopupBlocker": false
@@ -54,6 +78,12 @@
         "keep_alive": true
     },
     "ie": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "executable_path": "IEDriverServer.exe",
         "capabilities": null,
         "port": 0,
@@ -72,6 +102,12 @@
         "log_file": null
     },
     "safari": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "port": 0,
         "executable_path": "/usr/bin/safaridriver",
         "reuse_service": false,
@@ -83,6 +119,12 @@
         "quiet": false
     },
     "opera": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "executable_path": null,
         "port": 0,
         "options": null,
@@ -92,6 +134,12 @@
         "opera_options": null
     },
     "android": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "host": "localhost",
         "port": 4444,
         "desired_capabilities": {
@@ -101,6 +149,12 @@
         }
     },
     "phantomjs": {
+        "size": [
+            1920,
+            1080
+        ],
+        "full_screen": true,
+        "implicit_wait": 0,
         "executable_path": "phantomjs",
         "port": 0,
         "desired_capabilities": {
