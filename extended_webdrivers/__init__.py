@@ -1,4 +1,9 @@
-__version__ = '0.0.5'
+"""
+Extends the funcionality of the selenium webdriver in Python with 
+additional methods to get the state of jQuery and Angular calls, 
+change the geolocation of the browser, and directly call javascript 
+on elements.
+"""
 
 import json
 import logging
@@ -92,7 +97,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
     name = name.lower()
     start_time = time.time()
     if name == 'remote':
-        webdriver = Remote(command_executor=data['remote']['command_executor'])
+        webdriver_ = Remote(command_executor=data['remote']['command_executor'])
     elif name == 'chrome':
         options = webdriver.ChromeOptions()
         if isinstance(data['chrome']['options']['arguments'], dict):
@@ -108,7 +113,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             for capability in data['chrome']['options']['capabilities']:
                 options.set_capability = data['chrome']['options'][
                     'capabilities'][capability]
-        webdriver = Chrome(
+        webdriver_ = Chrome(
             executable_path=data['chrome']['executable_path'],
             port=data['chrome']['port'],
             options=options,
@@ -127,7 +132,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             for k, v in data['firefox']['firefox_profile'][
                     'preferences'].items():
                 firefox_profile.set_preference(k, v)
-        webdriver = Firefox(
+        webdriver_ = Firefox(
             firefox_profile=firefox_profile,
             firefox_binary=data['firefox']['firefox_binary'],
             timeout=data['firefox']['timeout'],
@@ -141,7 +146,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             desired_capabilities=data['firefox']['desired_capabilities'],
             log_path=data['firefox']['log_path'])
     elif name == 'edge':
-        webdriver = Edge(executable_path=data['edge']['executable_path'],
+        webdriver_ = Edge(executable_path=data['edge']['executable_path'],
                       capabilities=data['edge']['capabilities'],
                       port=data['edge']['port'],
                       verbose=data['edge']['verbose'],
@@ -149,7 +154,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                       log_path=data['edge']['log_path'],
                       keep_alive=data['edge']['keep_alive'])
     elif name == 'android':
-        webdriver = Android(
+        webdriver_ = Android(
             host=data['android']['host'],
             port=data['android']['port'],
             desired_capabilities=data['android']['desired_capabilities'])
@@ -163,7 +168,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                     'additional_options']:
                 ie_options.add_additional_option(additional_option.name,
                                                  additional_option.value)
-        webdriver = Ie(restricted_mode=False,
+        webdriver_ = Ie(restricted_mode=False,
                     executable_path=data['ie']['executable_path'],
                     capabilities=data['ie']['capabilities'],
                     port=data['ie']['port'],
@@ -177,7 +182,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                     log_file=data['ie']['log_file'],
                     keep_alive=data['ie']['keep_alive'])
     elif name == 'opera':
-        webdriver = Opera(
+        webdriver_ = Opera(
             desired_capabilities=data['opera']['desired_capabilities'],
             executable_path=data['opera']['executable_path'],
             port=data['opera']['port'],
@@ -185,7 +190,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             service_args=data['opera']['service_args'],
             options=data['opera']['options'])
     elif name == 'phantomjs':
-        webdriver = PhantomJS(
+        webdriver_ = PhantomJS(
             executable_path=data['phantomjs']['executable_path'],
             port=data['phantomjs']['port'],
             desired_capabilities=json.dumps(
@@ -199,25 +204,27 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
         LOGGER.debug(
             f'Setting webdriver window size to {data[name]["size"][0]}x{data[name]["size"][1]}'
         )
-        webdriver.set_window_size(data[name]['size'][0], data[name]['size'][1])
+        webdriver_.set_window_size(data[name]['size'][0], data[name]['size'][1])
 
     if data[name]['full_screen'] == True:
         LOGGER.debug('Setting webdriver to full screen.')
-        webdriver.maximize_window()
+        webdriver_.maximize_window()
 
     if isinstance(data[name]['implicitly_wait'],
                   (int, float)) and data[name]['implicitly_wait'] > 0:
         LOGGER.debug(
             f'Setting webdriver implicit wait time to {data[name]["implicitly_wait"]}.'
         )
-        webdriver.implicitly_wait(data[name]['implicitly_wait'])
+        webdriver_.implicitly_wait(data[name]['implicitly_wait'])
 
     if isinstance(data[name]['coordinates'], (list, tuple)):
         LOGGER.debug(
             f'Setting webdriver geolcation to {data[name]["coordinates"]}.')
 
     LOGGER.debug(
-        f'Loaded webdriver {webdriver.name} in {round(time.time() - start_time, 2)} seconds.'
+        f'Loaded webdriver {webdriver_.name} in {round(time.time() - start_time, 2)} seconds.'
     )
 
-    return webdriver
+    return webdriver_
+
+__version__ = '0.0.7'

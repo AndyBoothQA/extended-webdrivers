@@ -107,7 +107,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         LOGGER.debug(f'wait_for_stable() timed out after {timeout} seconds.')
         return None
 
-    def set_cordinates(self, cords: tuple) -> None:
+    def set_coordinates(self, cords: tuple) -> None:
         """
         Sets the geolocation for location services.
         """
@@ -122,7 +122,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
             success(position);
         }''' % cords)
 
-    def get_cordinates(self) -> tuple:
+    def get_coordinates(self) -> tuple:
         latitude = self.execute_script('''
         latitude = ""
         window.navigator.geolocation.getCurrentPosition(function(pos) {
@@ -146,6 +146,17 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         Returns the current iframe element, None if not in an iframe.
         """
         return self.execute_script('return window.frameElement')
+
+    def get_timezone_offset(self) -> int:
+        """
+        Returns the timezone offset of the browser in minutes.
+        """
+        script = """
+        var dt = new Date();
+        var tz = dt.getTimezoneOffset();
+        return tz
+        """
+        return self.execute_script(script)
 
     def js_focus(self, element: WebElement) -> None:
         """
