@@ -25,6 +25,7 @@ from .remote import Remote
 
 DEFAULT_CONFIG = 'webdrivers-default.json'
 MOBILE_CONFIG = 'webdrivers-mobile.json'
+HEADLESS_CONFIG = 'webdrivers-headless.json'
 
 LOGGER = logging.getLogger('extended_webdrivers')
 
@@ -97,10 +98,11 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
     name = name.lower()
     start_time = time.time()
     if name == 'remote':
-        webdriver_ = Remote(command_executor=data['remote']['command_executor'])
+        webdriver_ = Remote(
+            command_executor=data['remote']['command_executor'])
     elif name == 'chrome':
         options = webdriver.ChromeOptions()
-        if isinstance(data['chrome']['options']['arguments'], dict):
+        if isinstance(data['chrome']['options']['arguments'], list):
             for argument in data['chrome']['options']['arguments']:
                 options.add_argument(argument)
         if isinstance(data['chrome']['options']['experimental_options'], dict):
@@ -147,12 +149,12 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             log_path=data['firefox']['log_path'])
     elif name == 'edge':
         webdriver_ = Edge(executable_path=data['edge']['executable_path'],
-                      capabilities=data['edge']['capabilities'],
-                      port=data['edge']['port'],
-                      verbose=data['edge']['verbose'],
-                      service_log_path=data['edge']['service_log_path'],
-                      log_path=data['edge']['log_path'],
-                      keep_alive=data['edge']['keep_alive'])
+                          capabilities=data['edge']['capabilities'],
+                          port=data['edge']['port'],
+                          verbose=data['edge']['verbose'],
+                          service_log_path=data['edge']['service_log_path'],
+                          log_path=data['edge']['log_path'],
+                          keep_alive=data['edge']['keep_alive'])
     elif name == 'android':
         webdriver_ = Android(
             host=data['android']['host'],
@@ -168,19 +170,20 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                     'additional_options']:
                 ie_options.add_additional_option(additional_option.name,
                                                  additional_option.value)
-        webdriver_ = Ie(restricted_mode=False,
-                    executable_path=data['ie']['executable_path'],
-                    capabilities=data['ie']['capabilities'],
-                    port=data['ie']['port'],
-                    timeout=data['ie']['timeout'],
-                    host=data['ie']['host'],
-                    log_level=data['ie']['log_level'],
-                    service_log_path=data['ie']['service_log_path'],
-                    options=data['ie']['options'],
-                    ie_options=ie_options,
-                    desired_capabilities=data['ie']['desired_capabilities'],
-                    log_file=data['ie']['log_file'],
-                    keep_alive=data['ie']['keep_alive'])
+        webdriver_ = Ie(
+            restricted_mode=False,
+            executable_path=data['ie']['executable_path'],
+            capabilities=data['ie']['capabilities'],
+            port=data['ie']['port'],
+            timeout=data['ie']['timeout'],
+            host=data['ie']['host'],
+            log_level=data['ie']['log_level'],
+            service_log_path=data['ie']['service_log_path'],
+            options=data['ie']['options'],
+            ie_options=ie_options,
+            desired_capabilities=data['ie']['desired_capabilities'],
+            log_file=data['ie']['log_file'],
+            keep_alive=data['ie']['keep_alive'])
     elif name == 'opera':
         webdriver_ = Opera(
             desired_capabilities=data['opera']['desired_capabilities'],
@@ -201,14 +204,30 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
         raise InvalidWebdriver(f'{name} is an invalid webdriver.')
 
     if isinstance(data[name]['size'], (list, tuple)):
-        LOGGER.debug(
-            f'Setting webdriver window size to {data[name]["size"][0]}x{data[name]["size"][1]}'
-        )
-        webdriver_.set_window_size(data[name]['size'][0], data[name]['size'][1])
+        set_window_size = True
+        if webdriver_.name == 'chrome' and isinstance(
+                data['chrome']['options']['arguments'], list) and any(
+                    '--window-size' in x
+                    for x in data['chrome']['options']['arguments']):
+            set_window_size = False
+
+        if set_window_size:
+            LOGGER.debug(
+                f'Setting webdriver window size to {data[name]["size"][0]}x{data[name]["size"][1]}'
+            )
+            webdriver_.set_window_size(data[name]['size'][0],
+                                       data[name]['size'][1])
 
     if data[name]['full_screen'] == True:
-        LOGGER.debug('Setting webdriver to full screen.')
-        webdriver_.maximize_window()
+        set_full_screen = True
+        if webdriver_.name == 'chrome' and isinstance(
+                data['chrome']['options']['arguments'], list
+        ) and '--start-maximized' in data['chrome']['options']['arguments']:
+            set_full_screen = False
+
+        if set_full_screen:
+            LOGGER.debug('Setting webdriver to full screen.')
+            webdriver_.maximize_window()
 
     if isinstance(data[name]['implicitly_wait'],
                   (int, float)) and data[name]['implicitly_wait'] > 0:
@@ -227,4 +246,5 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
     return webdriver_
 
-__version__ = '0.0.7'
+
+__version__ = '0.0.8'
