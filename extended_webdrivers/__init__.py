@@ -29,6 +29,7 @@ HEADLESS_CONFIG = 'webdrivers-headless.json'
 
 LOGGER = logging.getLogger('extended_webdrivers')
 
+NoneType = type(None)
 
 class InvalidWebdriver(Exception):
     pass
@@ -115,7 +116,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         if 'remote' in data and isinstance(data['remote'], dict):
             if 'command_executor' in data['remote'] and isinstance(
-                    data['remote']['command_executor'], (None, str)):
+                    data['remote']['command_executor'], (NoneType, str)):
                 command_executor = data['remote']['command_executor']
 
             if 'desired_capabilities' in data['remote'] and isinstance(
@@ -174,7 +175,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         if 'chrome' in data and isinstance(data['chrome'], dict):
             if 'executable_path' in data['chrome'] and isinstance(
-                    data['chrome']['executable_path'], (None, str)):
+                    data['chrome']['executable_path'], (NoneType, str)):
                 executable_path = data['chrome']['executable_path']
 
             if 'port' in data['chrome'] and isinstance(data['chrome']['port'],
@@ -190,7 +191,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 desired_capabilities = data['chrome']['desired_capabilities']
 
             if 'service_log_path' in data['chrome'] and isinstance(
-                    data['chrome']['service_log_path'], (None, str)):
+                    data['chrome']['service_log_path'], (NoneType, str)):
                 service_log_path = data['chrome']['service_log_path']
 
             if 'keep_alive' in data['chrome'] and isinstance(
@@ -219,7 +220,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                         options.set_capability(k, v)
                 if 'binary_location' in data['chrome'][
                         'options'] and isinstance(
-                            data['chrome']['options']['binary_location'], (None, str)):
+                            data['chrome']['options']['binary_location'], (NoneType, str)):
                     options.binary_location = data['chrome']['options'][
                         'binary_location']
         else:
@@ -281,7 +282,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                         firefox_profile.set_preference(k, v)
 
             if 'firefox_binary' in data['firefox'] and isinstance(
-                    data['firefox']['firefox_binary'], (None, str)):
+                    data['firefox']['firefox_binary'], (NoneType, str)):
                 firefox_binary = data['firefox']['firefox_binary']
 
             if 'timeout' in data['firefox'] and isinstance(
@@ -298,7 +299,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             #    proxy = data['firefox']['proxy']
 
             if 'executable_path' in data['firefox'] and isinstance(
-                    data['firefox']['executable_path'], (None, str)):
+                    data['firefox']['executable_path'], (NoneType, str)):
                 executable_path = int(data['firefox']['executable_path'])
 
             if 'options' in data['firefox'] and isinstance(
@@ -311,7 +312,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                         options.add_argument(argument)
 
             if 'service_log_path' in data['firefox'] and isinstance(
-                    data['firefox']['service_log_path'], (None, str)):
+                    data['firefox']['service_log_path'], (NoneType, str)):
                 service_log_path = data['firefox']['service_log_path']
 
             if 'service_args' in data['firefox'] and isinstance(
@@ -323,7 +324,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 desired_capabilities = data['firefox']['desired_capabilities']
 
             if 'log_path' in data['firefox'] and isinstance(
-                    data['firefox']['log_path'], (None, str)):
+                    data['firefox']['log_path'], (NoneType, str)):
                 log_path = data['firefox']['log_path']
         else:
             LOGGER.info(
@@ -373,11 +374,11 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         if 'edge' in data and isinstance(data['edge'], dict):
             if 'executable_path' in data['edge'] and isinstance(
-                    data['edge']['executable_path'], (None, str)):
+                    data['edge']['executable_path'], (NoneType, str)):
                 executable_path = data['edge']['executable_path']
 
             if 'capabilities' in data['edge'] and isinstance(
-                    data['edge']['capabilities'], (None, dict)):
+                    data['edge']['capabilities'], (NoneType, dict)):
                 capabilities = data['edge']['capabilities']
 
             if 'port' in data['edge'] and isinstance(data['edge']['port'],
@@ -389,11 +390,11 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 verbose = bool(data['edge']['verbose'])
 
             if 'service_log_path' in data['edge'] and isinstance(
-                    data['edge']['service_log_path'], (None, str)):
+                    data['edge']['service_log_path'], (NoneType, str)):
                 service_log_path = data['edge']['service_log_path']
 
             if 'log_path' in data['edge'] and isinstance(
-                    data['edge']['log_path'], (None, str)):
+                    data['edge']['log_path'], (NoneType, str)):
                 log_path = data['edge']['log_path']
 
             if 'keep_alive' in data['edge'] and isinstance(
@@ -429,7 +430,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         if 'android' in data and isinstance(data['android'], dict):
             if 'host' in data['android'] and isinstance(
-                    data['android']['host'], (None, str)):
+                    data['android']['host'], (NoneType, str)):
                 host = data['android']['host']
 
             if 'port' in data['android'] and isinstance(
@@ -437,7 +438,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 port = int(data['android']['port'])
 
             if 'desired_capabilities' in data['android'] and isinstance(
-                    data['android']['desired_capabilities'], (None, dict)):
+                    data['android']['desired_capabilities'], (NoneType, dict)):
                 desired_capabilities = data['android']['desired_capabilities']
         else:
             LOGGER.info(
@@ -480,11 +481,11 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 restricted_mode = bool(data['ie']['restricted_mode'])
 
             if 'executable_path' in data['ie'] and isinstance(
-                    data['ie']['executable_path'], (None, str)):
+                    data['ie']['executable_path'], (NoneType, str)):
                 service_log_path = data['ie']['executable_path']
 
             if 'capabilities' in data['ie'] and isinstance(
-                    data['ie']['capabilities'], (None, dict)):
+                    data['ie']['capabilities'], (NoneType, dict)):
                 capabilities = data['ie']['capabilities']
 
             if 'port' in data['ie'] and isinstance(data['ie']['port'],
@@ -495,15 +496,15 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                                                       (int, float, str)):
                 timeout = int(data['ie']['timeout'])
 
-            if 'host' in data['ie'] and isinstance(data['ie']['host'], (None, str)):
+            if 'host' in data['ie'] and isinstance(data['ie']['host'], (NoneType, str)):
                 host = data['ie']['host']
 
             if 'log_level' in data['ie'] and isinstance(
-                    data['ie']['log_level'], (None, str)):
+                    data['ie']['log_level'], (NoneType, str)):
                 log_level = data['ie']['log_level']
 
             if 'service_log_path' in data['ie'] and isinstance(
-                    data['ie']['service_log_path'], (None, str)):
+                    data['ie']['service_log_path'], (NoneType, str)):
                 service_log_path = data['ie']['service_log_path']
 
             if 'options' in data['ie'] and isinstance(data['ie']['options'],
@@ -520,11 +521,11 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                         options.add_additional_option(k, v)
 
             if 'desired_capabilities' in data['ie'] and isinstance(
-                    data['ie']['desired_capabilities'], (None, dict)):
+                    data['ie']['desired_capabilities'], (NoneType, dict)):
                 desired_capabilities = data['ie']['desired_capabilities']
 
             if 'log_file' in data['ie'] and isinstance(data['ie']['log_file'],
-                                                       (None, str)):
+                                                       (NoneType, str)):
                 log_file = data['ie']['log_file']
 
             if 'keep_alive' in data['ie'] and isinstance(
@@ -582,7 +583,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         if 'opera' in data and isinstance(data['opera'], dict):
             if 'executable_path' in data['opera'] and isinstance(
-                    data['opera']['executable_path'], (None, str)):
+                    data['opera']['executable_path'], (NoneType, str)):
                 executable_path = data['opera']['executable_path']
 
             if 'port' in data['opera'] and isinstance(data['opera']['port'],
@@ -609,7 +610,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                     for k, v in data['opera']['options']['capabilities'].keys():
                         options.set_capability(k, v)
                 if 'binary_location' in data['opera']['options'] and isinstance(
-                        data['opera']['options']['binary_location'], (None, str)):
+                        data['opera']['options']['binary_location'], (NoneType, str)):
                     options.binary_location = data['opera']['options'][
                         'binary_location']
 
@@ -622,7 +623,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 desired_capabilities = data['opera']['desired_capabilities']
 
             if 'service_log_path' in data['opera'] and isinstance(
-                    data['opera']['service_log_path'], (None, str)):
+                    data['opera']['service_log_path'], (NoneType, str)):
                 service_log_path = data['opera']['service_log_path']
 
             if 'keep_alive' in data['opera'] and isinstance(
@@ -664,7 +665,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         if 'phantomjs' in data and isinstance(data['phantomjs'], dict):
             if 'executable_path' in data['phantomjs'] and isinstance(
-                    data['phantomjs']['executable_path'], (None, str)):
+                    data['phantomjs']['executable_path'], (NoneType, str)):
                 executable_path = data['phantomjs']['executable_path']
 
             if 'port' in data['phantomjs'] and isinstance(
@@ -680,7 +681,7 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 service_args = data['phantomjs']['service_args']
             
             if 'service_log_path' in data['phantomjs'] and isinstance(
-                    data['phantomjs']['service_log_path'], (None, str)):
+                    data['phantomjs']['service_log_path'], (NoneType, str)):
                 service_log_path = data['phantomjs']['service_log_path']
         else:
             LOGGER.info(
