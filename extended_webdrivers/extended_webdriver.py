@@ -108,9 +108,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         return None
 
     def set_coordinates(self, cords: tuple) -> None:
-        """
-        Sets the geolocation for location services.
-        """
+        """ Sets the geolocation for location services. """
         self.execute_script('''
         window.navigator.geolocation.getCurrentPosition = function(success) {
             var position = {
@@ -142,9 +140,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         return (latitude, longitude)
 
     def get_current_frame(self) -> WebElement:
-        """
-        Returns the current iframe element, None if not in an iframe.
-        """
+        """ Returns the current iframe element, None if not in an iframe. """
         return self.execute_script('return window.frameElement')
 
     def get_timezone_offset(self) -> int:
@@ -158,26 +154,24 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         """
         return self.execute_script(script)
 
+    @property
+    def fullscreen(self) -> bool:
+        """ Returns if the window is maximized. """
+        return self.execute_script(
+            'return window.outerWidth == screen.availWidth && window.outerHeight == screen.availHeight')
+
     def js_focus(self, element: WebElement) -> None:
-        """
-        Focuses on an element.
-        """
+        """ Focuses on an element. """
         self.execute_script('arguments[0].focus()', element)
 
     def js_click(self, element: WebElement) -> None:
-        """
-        Clicks on an element.
-        """
+        """ Clicks on an element. """
         self.execute_script('arguments[0].click()', element)
 
     def js_blur(self, element: WebElement) -> None:
-        """
-        Clear the focus from a selected web element.
-        """
+        """ Clear the focus from a selected web element. """
         self.execute_script('arguments[0].blur()', element)
 
     def js_scroll_into_view(self, element: WebElement) -> None:
-        """
-        Scrolls the element into view. 
-        """
+        """ Scrolls the element into view.  """
         self.execute_script("arguments[0].scrollIntoView();", element)

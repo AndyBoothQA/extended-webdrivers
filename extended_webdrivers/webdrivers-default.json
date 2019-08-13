@@ -32,7 +32,8 @@
                 "--disable-popup-blocking"
             ],
             "experimental_options": null,
-            "capabilities": null
+            "capabilities": null,
+            "binary_location": "chromedriver"
         },
         "service_args": null,
         "desired_capabilities": null,
@@ -96,13 +97,13 @@
         "host": null,
         "log_level": null,
         "service_log_path": null,
-        "options": null,
-        "ie_options": {
+        "options": {
             "capabilities": {
                 "browserstack.ie.enablePopups": true
             },
             "additional_options": null
         },
+        "ie_options": null,
         "desired_capabilities": null,
         "log_file": null
     },
@@ -134,7 +135,12 @@
         "coordinates": null,
         "executable_path": null,
         "port": 0,
-        "options": null,
+        "options": {
+            "arguments": null,
+            "experimental_options": null,
+            "capabilities": null,
+            "binary_location": "chromedriver"
+        },
         "service_args": null,
         "desired_capabilities": null,
         "service_log_path": null,
