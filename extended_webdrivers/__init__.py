@@ -69,8 +69,8 @@ def load_driver_from_config(name: str, config_name: str = DEFAULT_CONFIG
     if not os.path.exists(config_name):
         raise FileNotFoundError('Config file not found.')
     with open(config_name, 'r') as config_file:
-        LOGGER.info(f'Loading webdriver settings from {config_file}.')
-        data = json.load(config_file.name)
+        LOGGER.info(f'Loading webdriver settings from {config_file.name}.')
+        data = json.load(config_file)
         return load_driver(name, data)
 
 
@@ -764,4 +764,4 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
     return webdriver_
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
