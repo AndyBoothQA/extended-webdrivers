@@ -33,7 +33,7 @@
             ],
             "experimental_options": null,
             "capabilities": null,
-            "binary_location": "chromedriver"
+            "binary_location": null
         },
         "service_args": null,
         "desired_capabilities": null,

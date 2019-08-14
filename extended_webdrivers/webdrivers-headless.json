@@ -31,7 +31,8 @@
                 "--window-size=1920,1080"
             ],
             "experimental_options": null,
-            "capabilities": null
+            "capabilities": null,
+            "binary_location": null
         },
         "service_args": null,
         "desired_capabilities": null,
