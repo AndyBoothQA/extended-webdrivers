@@ -1,9 +1,12 @@
 import logging
 import time
+import warnings
 
 import selenium.webdriver
 from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver.remote.webelement import WebElement
+
+from .js import Js
 
 LOGGER = logging.getLogger('extended_webdrivers')
 
@@ -144,9 +147,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
         return self.execute_script('return window.frameElement')
 
     def get_timezone_offset(self) -> int:
-        """
-        Returns the timezone offset of the browser in minutes.
-        """
+        """ Returns the timezone offset of the browser in minutes. """
         script = """
         var dt = new Date();
         var tz = dt.getTimezoneOffset();
@@ -158,20 +159,31 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
     def fullscreen(self) -> bool:
         """ Returns if the window is maximized. """
         return self.execute_script(
-            'return window.outerWidth == screen.availWidth && window.outerHeight == screen.availHeight')
+            'return window.outerWidth == screen.availWidth && window.outerHeight == screen.availHeight'
+        )
+
+    @property
+    def js(self):
+        return Js(self)
 
     def js_focus(self, element: WebElement) -> None:
         """ Focuses on an element. """
+        warnings.warn('Use js.focus', DeprecationWarning, stacklevel=2)
         self.execute_script('arguments[0].focus()', element)
 
     def js_click(self, element: WebElement) -> None:
         """ Clicks on an element. """
+        warnings.warn('Use js.click', DeprecationWarning, stacklevel=2)
         self.execute_script('arguments[0].click()', element)
 
     def js_blur(self, element: WebElement) -> None:
         """ Clear the focus from a selected web element. """
+        warnings.warn('Use js.blur', DeprecationWarning, stacklevel=2)
         self.execute_script('arguments[0].blur()', element)
 
     def js_scroll_into_view(self, element: WebElement) -> None:
         """ Scrolls the element into view.  """
+        warnings.warn('Use js.scroll_into_view',
+                      DeprecationWarning,
+                      stacklevel=2)
         self.execute_script("arguments[0].scrollIntoView();", element)

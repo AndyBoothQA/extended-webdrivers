@@ -765,4 +765,4 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
     return webdriver_
 
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
