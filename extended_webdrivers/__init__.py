@@ -774,4 +774,4 @@ service_log_path={service_log_path})
     return webdriver_
 
 
-__version__ = '0.1.4'
+__version__ = '0.1.5'

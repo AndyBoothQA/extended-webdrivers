@@ -21,6 +21,10 @@ class Js:
     def scroll_into_view(self, element: WebElement) -> None:
         """ Scrolls the element into view.  """
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
+    
+    def get_bounding_client_rect(self, element: WebElement) -> dict:
+        """ Gets the bounding client rect of an element. """
+        return self.driver.execute_script('return arguments[0].getBoundingClientRect()', element)
 
 
 class Window:
