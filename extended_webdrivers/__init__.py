@@ -228,14 +228,14 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 f'No settings found for webdriver {name}. Loading defaults.')
 
         LOGGER.info(f'''Chrome(
-            executable_path={executable_path},
-            port={port},
-            options={options},
-            service_args={service_args},
-            desired_capabilities={desired_capabilities},
-            service_log_path={service_log_path},
-            chrome_options=None,
-            keep_alive={keep_alive})''')
+executable_path={executable_path},
+port={port},
+options={options},
+service_args={service_args},
+desired_capabilities={desired_capabilities},
+service_log_path={service_log_path},
+chrome_options=None,
+keep_alive={keep_alive})''')
 
         webdriver_ = Chrome(
             executable_path=executable_path,
@@ -331,18 +331,18 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 f'No settings found for webdriver {name}. Loading defaults.')
 
         LOGGER.info(f'''Firefox(
-            firefox_profile={firefox_profile},
-            firefox_binary={firefox_binary},
-            timeout={timeout},
-            capabilities={capabilities},
-            proxy={proxy},
-            executable_path={executable_path},
-            options={options},
-            service_log_path={service_log_path},
-            firefox_options=None,  # Deprecated
-            service_args={service_args},
-            desired_capabilities={desired_capabilities},
-            log_path={log_path}''')
+firefox_profile={firefox_profile},
+firefox_binary={firefox_binary},
+timeout={timeout},
+capabilities={capabilities},
+proxy={proxy},
+executable_path={executable_path},
+options={options},
+service_log_path={service_log_path},
+firefox_options=None,  # Deprecated
+service_args={service_args},
+desired_capabilities={desired_capabilities},
+log_path={log_path}''')
 
         webdriver_ = Firefox(
             firefox_profile=firefox_profile,
@@ -405,12 +405,12 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 f'No settings found for webdriver {name}. Loading defaults.')
         
         LOGGER.info(f'''Edge(executable_path=executable_path,
-            capabilities={capabilities},
-            port={port},
-            verbose={verbose},
-            service_log_path={service_log_path},
-            log_path={log_path},
-            keep_alive={keep_alive})''')
+capabilities={capabilities},
+port={port},
+verbose={verbose},
+service_log_path={service_log_path},
+log_path={log_path},
+keep_alive={keep_alive})''')
 
         webdriver_ = Edge(executable_path=executable_path,
                           capabilities=capabilities,
@@ -446,9 +446,9 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
 
         LOGGER.info(f'''
         Android(
-            host={host},
-            port={port},
-            desired_capabilities={desired_capabilities})''')
+host={host},
+port={port},
+desired_capabilities={desired_capabilities})''')
 
         webdriver_ = Android(host=host,
                              port=port,
@@ -536,19 +536,19 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 f'No settings found for webdriver {name}. Loading defaults.')
 
         LOGGER.info(f'''Ie(
-            restricted_mode={restricted_mode},
-            executable_path={executable_path},
-            capabilities={capabilities},
-            port={port},
-            timeout={timeout},
-            host={host},
-            log_level={log_level},
-            service_log_path={service_log_path},
-            options={options},
-            ie_options=None, # Deprecated
-            desired_capabilities={desired_capabilities},
-            log_file={log_file},
-            keep_alive={keep_alive})''')
+restricted_mode={restricted_mode},
+executable_path={executable_path},
+capabilities={capabilities},
+port={port},
+timeout={timeout},
+host={host},
+log_level={log_level},
+service_log_path={service_log_path},
+options={options},
+ie_options=None, # Deprecated
+desired_capabilities={desired_capabilities},
+log_file={log_file},
+keep_alive={keep_alive})''')
 
         webdriver_ = Ie(
             restricted_mode=restricted_mode,
@@ -634,13 +634,13 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
                 f'No settings found for webdriver {name}. Loading defaults.')
         
         LOGGER.info(f'''Opera(executable_path={executable_path},
-            port={port},
-            options={options},
-            service_args={service_args},
-            desired_capabilities={desired_capabilities},
-            service_log_path={service_log_path},
-            opera_options=None,  # Deprecated
-            keep_alive={keep_alive})''')
+port={port},
+options={options},
+service_args={service_args},
+desired_capabilities={desired_capabilities},
+service_log_path={service_log_path},
+opera_options=None,  # Deprecated
+keep_alive={keep_alive})''')
 
         webdriver_ = Opera(executable_path=executable_path,
                            port=port,
@@ -686,6 +686,15 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
         else:
             LOGGER.info(
                 f'No settings found for webdriver {name}. Loading defaults.')
+            
+        LOGGER.info(f'''
+webdriver_ = PhantomJS(
+executable_path={executable_path},
+port={port},
+desired_capabilities={desired_capabilities},
+service_args={service_args},
+service_log_path={service_log_path})
+''')
 
         webdriver_ = PhantomJS(
             executable_path=executable_path,
@@ -765,4 +774,4 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
     return webdriver_
 
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'

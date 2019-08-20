@@ -107,7 +107,7 @@ class ExtendedWebdriver(selenium.webdriver.Remote):
             time.sleep(poll_rate)
             if time.time() > end_time:
                 break
-        LOGGER.debug(f'wait_for_stable() timed out after {timeout} seconds.')
+        LOGGER.info(f'wait_for_stable() timed out after {timeout} seconds.')
         return None
 
     def set_coordinates(self, cords: tuple) -> None:
