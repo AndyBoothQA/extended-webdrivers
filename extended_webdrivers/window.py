@@ -1,21 +1,24 @@
-import logging
-
 from selenium.common.exceptions import (NoAlertPresentException,
                                         NoSuchElementException,
                                         NoSuchFrameException,
                                         NoSuchWindowException,
                                         StaleElementReferenceException)
 
-LOGGER = logging.getLogger('extended_webdrivers')
+from . import LOGGER
 
 
 class Window:
     """ Base class for handling switching to and from different windows __enter__ and __exit__. """
 
-    def __init__(self, browser, child_window=None, close_on_exit=True):
+    def __init__(self,
+                 browser,
+                 child_window=None,
+                 close_on_exit=True,
+                 remember_frame=True):
         self.browser = browser
         self.child_window = child_window
         self.close_on_exit = close_on_exit
+        self.remember_frame = remember_frame
 
     def _switch_to(self):
         """ Switches to the specified window if defined, otherwise the top-most window. """
@@ -36,7 +39,7 @@ class Window:
 
         # Focuses on the window's body element.
         try:
-            self.browser.js_focus(
+            self.browser.js.focus(
                 self.browser.find_element_by_tag_name('body'))
         except NoSuchElementException:
             pass
@@ -63,7 +66,7 @@ class Window:
                 self.parent_window, self.child_window))
 
             # Switches to the original frame if it's still valid.
-            if self.current_frame != None:
+            if self.remember_frame and self.current_frame:
                 try:
                     self.browser.switch_to.frame(self.current_frame)
                 except (NoSuchFrameException, StaleElementReferenceException):

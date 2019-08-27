@@ -1,9 +1,9 @@
-import selenium.webdriver
+from selenium.webdriver import Ie as Ie_
 
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Ie(selenium.webdriver.Ie, ExtendedWebdriver):
+class Ie(Ie_, ExtendedWebdriver):
     def __init__(self, restricted_mode=False, **kwargs):
         super().__init__(**kwargs)
         #self._web_element_cls = ExtendedWebElement

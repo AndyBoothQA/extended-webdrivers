@@ -1,8 +1,6 @@
-import logging
-
 from selenium.common.exceptions import NoSuchElementException
 
-LOGGER = logging.getLogger('extended_webdrivers')
+from . import LOGGER
 
 
 class Frame:
@@ -30,7 +28,7 @@ class Frame:
 
         # Focuses on the child frame's body element.
         try:
-            self.browser.js_focus(
+            self.browser.js.focus(
                 self.browser.find_element_by_tag_name('body'))
         except NoSuchElementException:
             pass

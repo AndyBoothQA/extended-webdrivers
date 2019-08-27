@@ -1,17 +1,15 @@
-import logging
 import time
 import warnings
 
-import selenium.webdriver
 from selenium.common.exceptions import NoSuchWindowException
+from selenium.webdriver import Remote
 from selenium.webdriver.remote.webelement import WebElement
 
+from . import LOGGER
 from .js import Js
 
-LOGGER = logging.getLogger('extended_webdrivers')
 
-
-class ExtendedWebdriver(selenium.webdriver.Remote):
+class ExtendedWebdriver(Remote):
     """
     Extends the funcionality of the selenium webdriver with additional methods
     to get the state of jQuery and Angular calls, change the geolocation of the

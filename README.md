@@ -4,7 +4,7 @@
 
 ## About:
 
-Extends the funcionality of the selenium webdriver in Python with additional methods to get the state of jQuery and Angular calls, change the geolocation of the browser, and directly call javascript on elements.
+Extends the funcionality of the selenium webdriver in Python with additional methods to get the state of jQuery and Angular calls, change the geolocation of the browser, and directly call javascript on elements, and more.
 
 ## Usage:
 
