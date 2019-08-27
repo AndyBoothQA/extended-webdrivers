@@ -5,8 +5,6 @@ change the geolocation of the browser, and directly call javascript
 on elements, and more.
 """
 
-import logging
-
 from .android import Android
 from .chrome import Chrome
 from .config import *
@@ -18,6 +16,4 @@ from .opera import Opera
 from .phantomjs import PhantomJS
 from .remote import Remote
 
-LOGGER = logging.getLogger('extended_webdrivers')
-
-__version__ = '0.1.6'
+__version__ = '0.1.7'

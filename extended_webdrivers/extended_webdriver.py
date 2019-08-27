@@ -1,3 +1,4 @@
+import logging
 import time
 import warnings
 
@@ -5,8 +6,9 @@ from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver import Remote
 from selenium.webdriver.remote.webelement import WebElement
 
-from . import LOGGER
 from .js import Js
+
+LOGGER = logging.getLogger('extended_webdrivers')
 
 
 class ExtendedWebdriver(Remote):

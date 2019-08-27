@@ -1,6 +1,8 @@
+import logging
+
 from selenium.common.exceptions import NoSuchElementException
 
-from . import LOGGER
+LOGGER = logging.getLogger('extended_webdrivers')
 
 
 class Frame:

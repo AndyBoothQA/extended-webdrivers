@@ -1,11 +1,11 @@
 import json
+import logging
 import os
 import shutil
 import time
 
 from selenium import webdriver
 
-from . import LOGGER
 from .android import Android
 from .chrome import Chrome
 from .edge import Edge
@@ -15,6 +15,8 @@ from .ie import Ie
 from .opera import Opera
 from .phantomjs import PhantomJS
 from .remote import Remote
+
+LOGGER = logging.getLogger('extended_webdrivers')
 
 DEFAULT_CONFIG = 'webdrivers-default.json'
 MOBILE_CONFIG = 'webdrivers-mobile.json'

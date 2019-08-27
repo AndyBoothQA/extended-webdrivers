@@ -1,10 +1,12 @@
+import logging
+
 from selenium.common.exceptions import (NoAlertPresentException,
                                         NoSuchElementException,
                                         NoSuchFrameException,
                                         NoSuchWindowException,
                                         StaleElementReferenceException)
 
-from . import LOGGER
+LOGGER = logging.getLogger('extended_webdrivers')
 
 
 class Window:
