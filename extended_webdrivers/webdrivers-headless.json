@@ -30,7 +30,11 @@
                 "--headless",
                 "--window-size=1920,1080"
             ],
-            "experimental_options": null,
+            "experimental_options": {
+                "excludeSwitches": [
+                    "enable-automation"
+                ]
+            },
             "capabilities": null,
             "binary_location": null
         },

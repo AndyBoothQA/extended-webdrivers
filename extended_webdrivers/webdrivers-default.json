@@ -31,7 +31,11 @@
                 "--start-maximized",
                 "--disable-popup-blocking"
             ],
-            "experimental_options": null,
+            "experimental_options": {
+                "excludeSwitches": [
+                    "enable-automation"
+                ]
+            },
             "capabilities": null,
             "binary_location": null
         },

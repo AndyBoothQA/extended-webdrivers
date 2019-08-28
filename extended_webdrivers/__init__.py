@@ -16,4 +16,4 @@ from .opera import Opera
 from .phantomjs import PhantomJS
 from .remote import Remote
 
-__version__ = '0.1.8'
+__version__ = '0.1.9'
