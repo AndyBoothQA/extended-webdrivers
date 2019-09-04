@@ -79,7 +79,7 @@ class LocalStorage:
 
     def get_item(self, key):
         return self.driver.execute_script(
-            "window.localStorage.getItem(arguments[0])", key)
+            "return window.localStorage.getItem(arguments[0])", key)
 
     def set_item(self, key, value):
         self.driver.execute_script(
