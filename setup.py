@@ -1,3 +1,4 @@
+import extended_webdrivers
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -5,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="extended-webdrivers",
-    version='0.1.9',
+    version=extended_webdrivers.__version__,
     author="Dillon Miller",
     author_email="dillon.miller@swiftpage.com",
     description="Extends the functionality of selenium webdriver.",

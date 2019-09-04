@@ -86,6 +86,9 @@ class LocalStorage:
             "window.localStorage.getItem(arguments[0], arguments[1])", key,
             value)
 
+    def clear(self):
+        self.driver.execute_script("window.localStorage.clear()")
+
 
 class IndexedDB:
     def __init__(self, driver):
@@ -126,3 +129,24 @@ class IndexedDB:
         """
         return self.driver.execute_async_script(script, database_name,
                                                 object_name)
+
+    def delete_database(self, database_name: str):
+        script = """var databaseName = arguments[0]
+        var callback = arguments[arguments.length - 1];
+        
+        try {
+            var req = indexedDB.deleteDatabase(databaseName);
+        }
+        catch (DOMException) {
+            callback(false);
+        }
+        req.onsuccess = function () {
+            callback(true);
+        };
+        req.onerror = function () {
+            callback(false);
+        };
+        req.onblocked = function () {
+            callback(false);
+        };"""
+        return self.driver.execute_async_script(script, database_name)
