@@ -109,6 +109,9 @@ class ExtendedWebdriver(Remote):
                 break
         LOGGER.info(f'wait_for_stable() timed out after {timeout} seconds.')
         return None
+    
+    def wait_stable(self, *args, **kwargs):
+        return self.wait_for_stable(*args, **kwargs)
 
     def set_coordinates(self, cords: tuple) -> None:
         """ Sets the geolocation for location services. """
