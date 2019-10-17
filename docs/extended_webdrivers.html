@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>extended_webdrivers package &#8212; Extended Webdrivers 0.1.12 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="extended-webdrivers-package">
+<h1>extended_webdrivers package<a class="headerlink" href="#extended-webdrivers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-extended_webdrivers.android">
+<span id="extended-webdrivers-android-module"></span><h2>extended_webdrivers.android module<a class="headerlink" href="#module-extended_webdrivers.android" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.android.Android">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.android.</code><code class="sig-name descname">Android</code><span class="sig-paren">(</span><em class="sig-param">host='localhost'</em>, <em class="sig-param">port=4444</em>, <em class="sig-param">desired_capabilities={'browserName': 'android'</em>, <em class="sig-param">'platform': 'ANDROID'</em>, <em class="sig-param">'version': ''}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/android.html#Android"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.android.Android" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.android.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.chrome">
+<span id="extended-webdrivers-chrome-module"></span><h2>extended_webdrivers.chrome module<a class="headerlink" href="#module-extended_webdrivers.chrome" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.chrome.Chrome">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.chrome.</code><code class="sig-name descname">Chrome</code><span class="sig-paren">(</span><em class="sig-param">executable_path='chromedriver'</em>, <em class="sig-param">port=0</em>, <em class="sig-param">options=None</em>, <em class="sig-param">service_args=None</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">service_log_path=None</em>, <em class="sig-param">chrome_options=None</em>, <em class="sig-param">keep_alive=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.chrome.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+<dl class="method">
+<dt id="extended_webdrivers.chrome.Chrome.set_network_conditions">
+<code class="sig-name descname">set_network_conditions</code><span class="sig-paren">(</span><em class="sig-param">**network_conditions</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome.set_network_conditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome.set_network_conditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets Chrome network emulation settings.</p>
+<dl class="field-list">
+<dt class="field-odd">Args</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>network_conditions: A dict with conditions specification.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Usage</dt>
+<dd class="field-even"><dl class="simple">
+<dt>driver.set_network_conditions(</dt><dd><p>offline=False,
+latency=5,  # additional latency (ms)
+download_throughput=500 * 1024,  # maximal throughput
+upload_throughput=500 * 1024)  # maximal throughput</p>
+</dd>
+</dl>
+<p>Note: ‘throughput’ can be used to set both (for download and upload).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.config">
+<span id="extended-webdrivers-config-module"></span><h2>extended_webdrivers.config module<a class="headerlink" href="#module-extended_webdrivers.config" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="extended_webdrivers.config.create_driver_config">
+<code class="sig-prename descclassname">extended_webdrivers.config.</code><code class="sig-name descname">create_driver_config</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/config.html#create_driver_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.config.create_driver_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new webdriver configuration file based off the default.</p>
+<p>name - The name of the new configuration file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="extended_webdrivers.config.load_driver_from_config">
+<code class="sig-prename descclassname">extended_webdrivers.config.</code><code class="sig-name descname">load_driver_from_config</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">config_name='webdrivers-default.json'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/config.html#load_driver_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.config.load_driver_from_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a webdriver with settings from a config file.</p>
+<p>name - The name of the webdriver to load.
+config_name - The name of the config file to load. This first searches for</p>
+<blockquote>
+<div><p>default config files in the extended_webdrivers package. If
+it can’t find any, it then searches the current directory.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtendedWebdriver</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.edge">
+<span id="extended-webdrivers-edge-module"></span><h2>extended_webdrivers.edge module<a class="headerlink" href="#module-extended_webdrivers.edge" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.edge.Edge">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.edge.</code><code class="sig-name descname">Edge</code><span class="sig-paren">(</span><em class="sig-param">executable_path='MicrosoftWebDriver.exe'</em>, <em class="sig-param">capabilities=None</em>, <em class="sig-param">port=0</em>, <em class="sig-param">verbose=False</em>, <em class="sig-param">service_log_path=None</em>, <em class="sig-param">log_path=None</em>, <em class="sig-param">keep_alive=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/edge.html#Edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.edge.Edge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.edge.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.extended_webdriver">
+<span id="extended-webdrivers-extended-webdriver-module"></span><h2>extended_webdrivers.extended_webdriver module<a class="headerlink" href="#module-extended_webdrivers.extended_webdriver" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.extended_webdriver.</code><code class="sig-name descname">ExtendedWebdriver</code><span class="sig-paren">(</span><em class="sig-param">command_executor='http://127.0.0.1:4444/wd/hub'</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">browser_profile=None</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">keep_alive=False</em>, <em class="sig-param">file_detector=None</em>, <em class="sig-param">options=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.remote.webdriver.WebDriver</span></code></p>
+<p>Extends the funcionality of the selenium webdriver with additional methods
+to get the state of jQuery and Angular calls, change the geolocation of the
+browser, and directly call javascript on elements.</p>
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.fullscreen">
+<em class="property">property </em><code class="sig-name descname">fullscreen</code><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.fullscreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the window is maximized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_coordinates">
+<code class="sig-name descname">get_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.get_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_current_frame">
+<code class="sig-name descname">get_current_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.get_current_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_current_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current iframe element, None if not in an iframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WebElement</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_timezone_offset">
+<code class="sig-name descname">get_timezone_offset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.get_timezone_offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_timezone_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the timezone offset of the browser in minutes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_angular_available">
+<code class="sig-name descname">is_angular_available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.is_angular_available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_angular_available" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_angular_ready">
+<code class="sig-name descname">is_angular_ready</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.is_angular_ready"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_angular_ready" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_document_ready">
+<code class="sig-name descname">is_document_ready</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.is_document_ready"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_document_ready" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_jquery_available">
+<code class="sig-name descname">is_jquery_available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.is_jquery_available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_jquery_available" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_jquery_ready">
+<code class="sig-name descname">is_jquery_ready</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.is_jquery_ready"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_jquery_ready" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_stable">
+<code class="sig-name descname">is_stable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.is_stable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_stable" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.js">
+<em class="property">property </em><code class="sig-name descname">js</code><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_blur">
+<code class="sig-name descname">js_blur</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.js_blur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_blur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the focus from a selected web element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_click">
+<code class="sig-name descname">js_click</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.js_click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_click" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clicks on an element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_focus">
+<code class="sig-name descname">js_focus</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.js_focus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_focus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Focuses on an element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_scroll_into_view">
+<code class="sig-name descname">js_scroll_into_view</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.js_scroll_into_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_scroll_into_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scrolls the element into view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.set_coordinates">
+<code class="sig-name descname">set_coordinates</code><span class="sig-paren">(</span><em class="sig-param">cords</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.set_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.set_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the geolocation for location services.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.wait_for_stable">
+<code class="sig-name descname">wait_for_stable</code><span class="sig-paren">(</span><em class="sig-param">pause=0.0</em>, <em class="sig-param">poll_rate=0.5</em>, <em class="sig-param">timeout=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.wait_for_stable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.wait_for_stable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Goes through a series of checks to verify the the web page is ready for use.
+Selenium does a majority of this but this adds extended functions by checking
+jQuery, Angular and the document ready state.</p>
+<blockquote>
+<div><p>pause - The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)
+poll_rate - How often in seconds to check the state of the web page. (Default: 0.5)
+timeout - The amount of time in seconds to allow the web page to report as not ready until bypassing.</p>
+<blockquote>
+<div><p>If this occurs, technically there can be an issue, but code execution will continue
+without raising an exception. (Default: 10)</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.wait_stable">
+<code class="sig-name descname">wait_stable</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.wait_stable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.wait_stable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.firefox">
+<span id="extended-webdrivers-firefox-module"></span><h2>extended_webdrivers.firefox module<a class="headerlink" href="#module-extended_webdrivers.firefox" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.firefox.Firefox">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.firefox.</code><code class="sig-name descname">Firefox</code><span class="sig-paren">(</span><em class="sig-param">firefox_profile=None</em>, <em class="sig-param">firefox_binary=None</em>, <em class="sig-param">timeout=30</em>, <em class="sig-param">capabilities=None</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">executable_path='geckodriver'</em>, <em class="sig-param">options=None</em>, <em class="sig-param">service_log_path='geckodriver.log'</em>, <em class="sig-param">firefox_options=None</em>, <em class="sig-param">service_args=None</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">log_path=None</em>, <em class="sig-param">keep_alive=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/firefox.html#Firefox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.firefox.Firefox" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.firefox.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.frame">
+<span id="extended-webdrivers-frame-module"></span><h2>extended_webdrivers.frame module<a class="headerlink" href="#module-extended_webdrivers.frame" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.frame.Frame">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.frame.</code><code class="sig-name descname">Frame</code><span class="sig-paren">(</span><em class="sig-param">browser</em>, <em class="sig-param">child_frame</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for handling switching to and from iframes using __enter__ and __exit__.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.ie">
+<span id="extended-webdrivers-ie-module"></span><h2>extended_webdrivers.ie module<a class="headerlink" href="#module-extended_webdrivers.ie" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.ie.Ie">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.ie.</code><code class="sig-name descname">Ie</code><span class="sig-paren">(</span><em class="sig-param">restricted_mode=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/ie.html#Ie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.ie.Ie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.ie.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.js">
+<span id="extended-webdrivers-js-module"></span><h2>extended_webdrivers.js module<a class="headerlink" href="#module-extended_webdrivers.js" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.js.Console">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.js.</code><code class="sig-name descname">Console</code><span class="sig-paren">(</span><em class="sig-param">driver</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Console"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Console" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="extended_webdrivers.js.Console.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Console.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Console.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.Console.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Console.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Console.log" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="extended_webdrivers.js.IndexedDB">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.js.</code><code class="sig-name descname">IndexedDB</code><span class="sig-paren">(</span><em class="sig-param">driver</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#IndexedDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.IndexedDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="extended_webdrivers.js.IndexedDB.delete_database">
+<code class="sig-name descname">delete_database</code><span class="sig-paren">(</span><em class="sig-param">database_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#IndexedDB.delete_database"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.IndexedDB.delete_database" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.IndexedDB.get_database_object">
+<code class="sig-name descname">get_database_object</code><span class="sig-paren">(</span><em class="sig-param">database_name</em>, <em class="sig-param">object_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#IndexedDB.get_database_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.IndexedDB.get_database_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets an object from a database in IndexedDB by name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>database_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the database to search in.</p></li>
+<li><p><strong>object_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the object to find.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="extended_webdrivers.js.Js">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.js.</code><code class="sig-name descname">Js</code><span class="sig-paren">(</span><em class="sig-param">driver</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Js"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Js" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="extended_webdrivers.js.Js.blur">
+<code class="sig-name descname">blur</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Js.blur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Js.blur" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the focus from a selected web element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.Js.click">
+<code class="sig-name descname">click</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Js.click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Js.click" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clicks on an element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.Js.focus">
+<code class="sig-name descname">focus</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Js.focus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Js.focus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Focuses on an element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.Js.get_bounding_client_rect">
+<code class="sig-name descname">get_bounding_client_rect</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Js.get_bounding_client_rect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Js.get_bounding_client_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the bounding client rect of an element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.Js.scroll_into_view">
+<code class="sig-name descname">scroll_into_view</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Js.scroll_into_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Js.scroll_into_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scrolls the element into view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="extended_webdrivers.js.LocalStorage">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.js.</code><code class="sig-name descname">LocalStorage</code><span class="sig-paren">(</span><em class="sig-param">driver</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#LocalStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.LocalStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="extended_webdrivers.js.LocalStorage.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#LocalStorage.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.LocalStorage.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.LocalStorage.get_item">
+<code class="sig-name descname">get_item</code><span class="sig-paren">(</span><em class="sig-param">key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#LocalStorage.get_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.LocalStorage.get_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.LocalStorage.set_item">
+<code class="sig-name descname">set_item</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#LocalStorage.set_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.LocalStorage.set_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="extended_webdrivers.js.MouseEvents">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.js.</code><code class="sig-name descname">MouseEvents</code><span class="sig-paren">(</span><em class="sig-param">driver</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#MouseEvents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.MouseEvents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="extended_webdrivers.js.MouseEvents.click">
+<code class="sig-name descname">click</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#MouseEvents.click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.MouseEvents.click" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.MouseEvents.mouse_down">
+<code class="sig-name descname">mouse_down</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#MouseEvents.mouse_down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.MouseEvents.mouse_down" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.MouseEvents.mouse_over">
+<code class="sig-name descname">mouse_over</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#MouseEvents.mouse_over"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.MouseEvents.mouse_over" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.js.MouseEvents.mouse_up">
+<code class="sig-name descname">mouse_up</code><span class="sig-paren">(</span><em class="sig-param">element</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#MouseEvents.mouse_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.MouseEvents.mouse_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="extended_webdrivers.js.Window">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.js.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param">driver</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/js.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.js.Window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.opera">
+<span id="extended-webdrivers-opera-module"></span><h2>extended_webdrivers.opera module<a class="headerlink" href="#module-extended_webdrivers.opera" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.opera.Opera">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.opera.</code><code class="sig-name descname">Opera</code><span class="sig-paren">(</span><em class="sig-param">executable_path=None</em>, <em class="sig-param">port=0</em>, <em class="sig-param">options=None</em>, <em class="sig-param">service_args=None</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">service_log_path=None</em>, <em class="sig-param">opera_options=None</em>, <em class="sig-param">keep_alive=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/opera.html#Opera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.opera.Opera" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.opera.webdriver.OperaDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.phantomjs">
+<span id="extended-webdrivers-phantomjs-module"></span><h2>extended_webdrivers.phantomjs module<a class="headerlink" href="#module-extended_webdrivers.phantomjs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.phantomjs.PhantomJS">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.phantomjs.</code><code class="sig-name descname">PhantomJS</code><span class="sig-paren">(</span><em class="sig-param">executable_path='phantomjs'</em>, <em class="sig-param">port=0</em>, <em class="sig-param">desired_capabilities={'browserName': 'phantomjs'</em>, <em class="sig-param">'javascriptEnabled': True</em>, <em class="sig-param">'platform': 'ANY'</em>, <em class="sig-param">'version': ''}</em>, <em class="sig-param">service_args=None</em>, <em class="sig-param">service_log_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/phantomjs.html#PhantomJS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.phantomjs.PhantomJS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.phantomjs.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.remote">
+<span id="extended-webdrivers-remote-module"></span><h2>extended_webdrivers.remote module<a class="headerlink" href="#module-extended_webdrivers.remote" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.remote.Remote">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.remote.</code><code class="sig-name descname">Remote</code><span class="sig-paren">(</span><em class="sig-param">command_executor='http://127.0.0.1:4444/wd/hub'</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">browser_profile=None</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">keep_alive=False</em>, <em class="sig-param">file_detector=None</em>, <em class="sig-param">options=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/remote.html#Remote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.remote.Remote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers.window">
+<span id="extended-webdrivers-window-module"></span><h2>extended_webdrivers.window module<a class="headerlink" href="#module-extended_webdrivers.window" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="extended_webdrivers.window.Window">
+<em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.window.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param">browser</em>, <em class="sig-param">child_window=None</em>, <em class="sig-param">close_on_exit=True</em>, <em class="sig-param">remember_frame=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/window.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.window.Window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for handling switching to and from different windows __enter__ and __exit__.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-extended_webdrivers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-extended_webdrivers" title="Permalink to this headline">¶</a></h2>
+<p>Extends the funcionality of the selenium webdriver in Python with 
+additional methods to get the state of jQuery and Angular calls, 
+change the geolocation of the browser, and directly call javascript 
+on elements, and more.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Extended Webdrivers</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/extended_webdrivers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

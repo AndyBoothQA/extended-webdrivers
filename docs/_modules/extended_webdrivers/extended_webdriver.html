@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>extended_webdrivers.extended_webdriver &#8212; Extended Webdrivers 0.1.12 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for extended_webdrivers.extended_webdriver</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">selenium.common.exceptions</span> <span class="k">import</span> <span class="n">NoSuchWindowException</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver</span> <span class="k">import</span> <span class="n">Remote</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.remote.webelement</span> <span class="k">import</span> <span class="n">WebElement</span>
+
+<span class="kn">from</span> <span class="nn">.js</span> <span class="k">import</span> <span class="n">Js</span>
+
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;extended_webdrivers&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ExtendedWebdriver"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver">[docs]</a><span class="k">class</span> <span class="nc">ExtendedWebdriver</span><span class="p">(</span><span class="n">Remote</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extends the funcionality of the selenium webdriver with additional methods</span>
+<span class="sd">    to get the state of jQuery and Angular calls, change the geolocation of the</span>
+<span class="sd">    browser, and directly call javascript on elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExtendedWebdriver.is_angular_available"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_angular_available">[docs]</a>    <span class="k">def</span> <span class="nf">is_angular_available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span>
+                <span class="s1">&#39;return window.getAllAngularRootElements != undefined&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchWindowException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;is_angular_available returned </span><span class="si">{result}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.is_angular_ready"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_angular_ready">[docs]</a>    <span class="k">def</span> <span class="nf">is_angular_ready</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_angular_available</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        var testabilities = window.getAllAngularTestabilities()</span>
+<span class="s1">        for (i = 0; i &lt; testabilities.length; i++) {</span>
+<span class="s1">            if (!testabilities[i].isStable()) {</span>
+<span class="s1">                return false</span>
+<span class="s1">            }</span>
+<span class="s1">        }</span>
+<span class="s1">        return true</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchWindowException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;is_angular_ready returned </span><span class="si">{result}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.is_jquery_available"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_jquery_available">[docs]</a>    <span class="k">def</span> <span class="nf">is_jquery_available</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;return window.jQuery != undefined&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchWindowException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;is_jquery_available returned </span><span class="si">{result}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.is_jquery_ready"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_jquery_ready">[docs]</a>    <span class="k">def</span> <span class="nf">is_jquery_ready</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_jquery_available</span><span class="p">():</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;is_jquery_ready returned True&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;return jQuery.active == 0&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchWindowException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;is_jquery_ready returned </span><span class="si">{result}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.is_document_ready"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_document_ready">[docs]</a>    <span class="k">def</span> <span class="nf">is_document_ready</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span>
+                <span class="s1">&#39;return document.readyState == &quot;complete&quot;&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSuchWindowException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;is_document_ready returned </span><span class="si">{result}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.is_stable"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.is_stable">[docs]</a>    <span class="k">def</span> <span class="nf">is_stable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_angular_ready</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_jquery_ready</span><span class="p">(</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_document_ready</span><span class="p">()</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;is_stable returned </span><span class="si">{result}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.wait_for_stable"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.wait_for_stable">[docs]</a>    <span class="k">def</span> <span class="nf">wait_for_stable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">pause</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                        <span class="n">poll_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+                        <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Goes through a series of checks to verify the the web page is ready for use.</span>
+<span class="sd">        Selenium does a majority of this but this adds extended functions by checking</span>
+<span class="sd">        jQuery, Angular and the document ready state.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">            pause - The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)</span>
+<span class="sd">            poll_rate - How often in seconds to check the state of the web page. (Default: 0.5)</span>
+<span class="sd">            timeout - The amount of time in seconds to allow the web page to report as not ready until bypassing.</span>
+<span class="sd">                    If this occurs, technically there can be an issue, but code execution will continue</span>
+<span class="sd">                    without raising an exception. (Default: 10)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">pause</span><span class="p">)</span>
+
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">timeout</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_stable</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">poll_rate</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">end_time</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;wait_for_stable() timed out after </span><span class="si">{timeout}</span><span class="s1"> seconds.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+    
+<div class="viewcode-block" id="ExtendedWebdriver.wait_stable"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.wait_stable">[docs]</a>    <span class="k">def</span> <span class="nf">wait_stable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait_for_stable</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.set_coordinates"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.set_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">set_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cords</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Sets the geolocation for location services. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        window.navigator.geolocation.getCurrentPosition = function(success) {</span>
+<span class="s1">            var position = {</span>
+<span class="s1">                &quot;coords&quot; : {</span>
+<span class="s1">                    &quot;latitude&quot;: &quot;</span><span class="si">%s</span><span class="s1">&quot;,</span>
+<span class="s1">                    &quot;longitude&quot;: &quot;</span><span class="si">%s</span><span class="s1">&quot;</span>
+<span class="s1">                }</span>
+<span class="s1">            };</span>
+<span class="s1">            success(position);</span>
+<span class="s1">        }&#39;&#39;&#39;</span> <span class="o">%</span> <span class="n">cords</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.get_coordinates"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+        <span class="n">latitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        latitude = &quot;&quot;</span>
+<span class="s1">        window.navigator.geolocation.getCurrentPosition(function(pos) {</span>
+<span class="s1">            latitude = pos.coords.latitude</span>
+<span class="s1">        });</span>
+<span class="s1">        return latitude</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+
+        <span class="n">longitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        longitude = &quot;&quot;</span>
+<span class="s1">        window.navigator.geolocation.getCurrentPosition(function(pos) {</span>
+<span class="s1">            longitude = pos.coords.longitude</span>
+<span class="s1">        });</span>
+<span class="s1">        return longitude</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.get_current_frame"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_current_frame">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WebElement</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Returns the current iframe element, None if not in an iframe. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;return window.frameElement&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.get_timezone_offset"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_timezone_offset">[docs]</a>    <span class="k">def</span> <span class="nf">get_timezone_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Returns the timezone offset of the browser in minutes. &quot;&quot;&quot;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        var dt = new Date();</span>
+<span class="s2">        var tz = dt.getTimezoneOffset();</span>
+<span class="s2">        return tz</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="n">script</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fullscreen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Returns if the window is maximized. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span>
+            <span class="s1">&#39;return window.outerWidth == screen.availWidth &amp;&amp; window.outerHeight == screen.availHeight&#39;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">js</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Js</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExtendedWebdriver.js_focus"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_focus">[docs]</a>    <span class="k">def</span> <span class="nf">js_focus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">WebElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Focuses on an element. &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use js.focus&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;arguments[0].focus()&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.js_click"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_click">[docs]</a>    <span class="k">def</span> <span class="nf">js_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">WebElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Clicks on an element. &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use js.click&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;arguments[0].click()&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.js_blur"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_blur">[docs]</a>    <span class="k">def</span> <span class="nf">js_blur</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">WebElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Clear the focus from a selected web element. &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use js.blur&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s1">&#39;arguments[0].blur()&#39;</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedWebdriver.js_scroll_into_view"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.extended_webdriver.ExtendedWebdriver.js_scroll_into_view">[docs]</a>    <span class="k">def</span> <span class="nf">js_scroll_into_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">:</span> <span class="n">WebElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Scrolls the element into view.  &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use js.scroll_into_view&#39;</span><span class="p">,</span>
+                      <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                      <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;arguments[0].scrollIntoView();&quot;</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Extended Webdrivers</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
