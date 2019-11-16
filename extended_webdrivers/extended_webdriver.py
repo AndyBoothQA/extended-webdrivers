@@ -2,28 +2,22 @@ import logging
 import time
 import warnings
 
-from selenium.common.exceptions import NoSuchWindowException
 from selenium.webdriver import Remote
 from selenium.webdriver.remote.webelement import WebElement
 
 from .js import Js
 
-LOGGER = logging.getLogger('extended_webdrivers')
+LOGGER = logging.getLogger(__name__)
 
 
 class ExtendedWebdriver(Remote):
     """
-    Extends the funcionality of the selenium webdriver with additional methods
-    to get the state of jQuery and Angular calls, change the geolocation of the
-    browser, and directly call javascript on elements.
+    Extends the funcionality of the selenium webdriver in Python with additional methods to get the state of jQuery and
+    Angular calls, change the geolocation of the browser, directly call javascript on elements, and more.
     """
 
     def is_angular_available(self):
-        try:
-            result = self.execute_script(
-                'return window.getAllAngularRootElements != undefined')
-        except NoSuchWindowException:
-            return True
+        result = self.execute_script('return window.getAllAngularRootElements != undefined')
         LOGGER.debug(f'is_angular_available returned {result}')
         return result
 
@@ -39,18 +33,12 @@ class ExtendedWebdriver(Remote):
         }
         return true
         '''
-        try:
-            result = self.execute_script(script)
-        except NoSuchWindowException:
-            return True
+        result = self.execute_script(script)
         LOGGER.debug(f'is_angular_ready returned {result}')
         return result
 
     def is_jquery_available(self):
-        try:
-            result = self.execute_script('return window.jQuery != undefined')
-        except NoSuchWindowException:
-            return True
+        result = self.execute_script('return window.jQuery != undefined')
         LOGGER.debug(f'is_jquery_available returned {result}')
         return result
 
@@ -58,64 +46,52 @@ class ExtendedWebdriver(Remote):
         if not self.is_jquery_available():
             LOGGER.debug('is_jquery_ready returned True')
             return True
-        try:
-            result = self.execute_script('return jQuery.active == 0')
-        except NoSuchWindowException:
-            return True
+        result = self.execute_script('return jQuery.active == 0')
         LOGGER.debug(f'is_jquery_ready returned {result}')
         return result
 
     def is_document_ready(self):
-        try:
-            result = self.execute_script(
-                'return document.readyState == "complete"')
-        except NoSuchWindowException:
-            return True
+        result = self.execute_script('return document.readyState == "complete"')
         LOGGER.debug(f'is_document_ready returned {result}')
         return result
 
     def is_stable(self) -> bool:
-        result = self.is_angular_ready() and self.is_jquery_ready(
-        ) and self.is_document_ready()
+        result = self.is_angular_ready() and self.is_jquery_ready() and self.is_document_ready()
         LOGGER.debug(f'is_stable returned {result}')
         return result
 
-    def wait_for_stable(self,
-                        pause: float = 0.0,
-                        poll_rate: float = 0.5,
-                        timeout: int = 10) -> None:
+    def wait_for_stable(self, pause: float = 0.0, poll_rate: float = 0.5, timeout: int = 30) -> None:
         """
         Goes through a series of checks to verify the the web page is ready for use.
         Selenium does a majority of this but this adds extended functions by checking
         jQuery, Angular and the document ready state.
 
-        Parameters
-        ----------
-            pause - The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)
-            poll_rate - How often in seconds to check the state of the web page. (Default: 0.5)
-            timeout - The amount of time in seconds to allow the web page to report as not ready until bypassing.
-                    If this occurs, technically there can be an issue, but code execution will continue
-                    without raising an exception. (Default: 10)
+        :param pause: The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)
+        :param poll_rate: How often in seconds to check the state of the web page. (Default: 0.5)
+        :param timeout: The amount of time in seconds to allow the web page to report as not ready until bypassing.
+                        If this occurs, technically there can be an issue, but code execution will continue
+                        without raising an exception. (Default: 30p)
         """
 
         time.sleep(pause)
-
         end_time = time.time() + timeout
         while True:
             if self.is_stable():
-                return True
+                return
             time.sleep(poll_rate)
             if time.time() > end_time:
                 break
         LOGGER.info(f'wait_for_stable() timed out after {timeout} seconds.')
-        return None
-    
+
     def wait_stable(self, *args, **kwargs):
         return self.wait_for_stable(*args, **kwargs)
 
+    wait_stable.__doc__ = wait_for_stable.__doc__
+
     def set_coordinates(self, cords: tuple) -> None:
         """ Sets the geolocation for location services. """
-        self.execute_script('''
+        self.execute_script(
+            '''
         window.navigator.geolocation.getCurrentPosition = function(success) {
             var position = {
                 "coords" : {
@@ -124,33 +100,39 @@ class ExtendedWebdriver(Remote):
                 }
             };
             success(position);
-        }''' % cords)
+        }'''
+            % cords
+        )
 
     def get_coordinates(self) -> tuple:
-        latitude = self.execute_script('''
+        latitude = self.execute_script(
+            '''
         latitude = ""
         window.navigator.geolocation.getCurrentPosition(function(pos) {
             latitude = pos.coords.latitude
         });
         return latitude
-        ''')
+        '''
+        )
 
-        longitude = self.execute_script('''
+        longitude = self.execute_script(
+            '''
         longitude = ""
         window.navigator.geolocation.getCurrentPosition(function(pos) {
             longitude = pos.coords.longitude
         });
         return longitude
-        ''')
+        '''
+        )
 
-        return (latitude, longitude)
+        return latitude, longitude
 
     def get_current_frame(self) -> WebElement:
-        """ Returns the current iframe element, None if not in an iframe. """
+        """ Gets the current frame. """
         return self.execute_script('return window.frameElement')
 
     def get_timezone_offset(self) -> int:
-        """ Returns the timezone offset of the browser in minutes. """
+        """ Gets the timezone offset of the browser in minutes. """
         script = """
         var dt = new Date();
         var tz = dt.getTimezoneOffset();
@@ -186,7 +168,5 @@ class ExtendedWebdriver(Remote):
 
     def js_scroll_into_view(self, element: WebElement) -> None:
         """ Scrolls the element into view.  """
-        warnings.warn('Use js.scroll_into_view',
-                      DeprecationWarning,
-                      stacklevel=2)
+        warnings.warn('Use js.scroll_into_view', DeprecationWarning, stacklevel=2)
         self.execute_script("arguments[0].scrollIntoView();", element)

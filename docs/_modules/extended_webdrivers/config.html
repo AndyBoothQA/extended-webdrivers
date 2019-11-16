@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>extended_webdrivers.config &#8212; Extended Webdrivers 0.1.12 documentation</title>
+    <title>extended_webdrivers.config &#8212; Extended Webdrivers 0.2.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -37,7 +37,9 @@
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="k">import</span> <span class="n">webdriver</span>
+<span class="kn">import</span> <span class="nn">selenium.webdriver.ie.webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver</span> <span class="k">import</span> <span class="n">FirefoxProfile</span><span class="p">,</span> <span class="n">ChromeOptions</span><span class="p">,</span> <span class="n">FirefoxOptions</span><span class="p">,</span> <span class="n">IeOptions</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.desired_capabilities</span> <span class="k">import</span> <span class="n">DesiredCapabilities</span>
 
 <span class="kn">from</span> <span class="nn">.android</span> <span class="k">import</span> <span class="n">Android</span>
 <span class="kn">from</span> <span class="nn">.chrome</span> <span class="k">import</span> <span class="n">Chrome</span>
@@ -66,34 +68,27 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a new webdriver configuration file based off the default.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    name - The name of the new configuration file.</span>
+<span class="sd">    :param name: The name of the new configuration file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
         <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
     <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span>
-                     <span class="n">DEFAULT_CONFIG</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">name</span><span class="p">))</span></div>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="n">DEFAULT_CONFIG</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">name</span><span class="p">)</span>
+    <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load_driver_from_config"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.config.load_driver_from_config">[docs]</a><span class="k">def</span> <span class="nf">load_driver_from_config</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_CONFIG</span>
-                            <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExtendedWebdriver</span><span class="p">:</span>
+<div class="viewcode-block" id="load_driver_from_config"><a class="viewcode-back" href="../../extended_webdrivers.html#extended_webdrivers.config.load_driver_from_config">[docs]</a><span class="k">def</span> <span class="nf">load_driver_from_config</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_CONFIG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ExtendedWebdriver</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads a webdriver with settings from a config file.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    name - The name of the webdriver to load.</span>
-<span class="sd">    config_name - The name of the config file to load. This first searches for</span>
-<span class="sd">                  default config files in the extended_webdrivers package. If</span>
-<span class="sd">                  it can&#39;t find any, it then searches the current directory.</span>
+<span class="sd">    :param name: The name of the webdriver to load.</span>
+<span class="sd">    :param config_name: The name of the config file to load. This first searches for default config files in the</span>
+<span class="sd">                        extended_webdrivers package. If it can&#39;t find any, it then searches the current directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">config_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
         <span class="n">config_name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">config_name</span><span class="p">):</span>
-        <span class="n">config_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span>
-                                   <span class="n">config_name</span><span class="p">)</span>
+        <span class="n">config_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="n">config_name</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">config_name</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;Config file not found.&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">config_file</span><span class="p">:</span>
@@ -106,10 +101,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads a webdriver with settings from a json string.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    name - The name of the webdriver to load.</span>
-<span class="sd">    data - The raw json string.</span>
+<span class="sd">    :param name: The name of the webdriver to load.</span>
+<span class="sd">    :param data: The raw json string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">load_driver</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -119,10 +112,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads a webdriver with settings from a dictionary.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    webdriver - The name of the webdriver to load.</span>
-<span class="sd">    data - The raw json string.</span>
+<span class="sd">    :param webdriver: The name of the webdriver to load.</span>
+<span class="sd">    :param data: The raw json string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -142,48 +133,46 @@
         <span class="n">options</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="s1">&#39;remote&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;command_executor&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;command_executor&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;command_executor&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;command_executor&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">command_executor</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;command_executor&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;browser_profile&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;browser_profile&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">browser_profile</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">FirefoxProfile</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;browser_profile&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s1">&#39;browser_profile&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;browser_profile&#39;</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">browser_profile</span> <span class="o">=</span> <span class="n">FirefoxProfile</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;browser_profile&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">keep_alive</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;remote&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">])</span>
 
-            <span class="c1">#if &#39;file_detector&#39; in data[&#39;remote&#39;]:</span>
+            <span class="c1"># if &#39;file_detector&#39; in data[&#39;remote&#39;]:</span>
             <span class="c1">#    file_detector = webdriver.remote.file_detector.FileDetector()</span>
 
-            <span class="c1">#if &#39;options&#39; in data[&#39;remote&#39;]:</span>
+            <span class="c1"># if &#39;options&#39; in data[&#39;remote&#39;]:</span>
             <span class="c1">#    options = data[&#39;remote&#39;][&#39;options&#39;])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;Remote(</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;Remote(</span>
 <span class="s1">            command_executor=</span><span class="si">{command_executor}</span><span class="s1">,</span>
 <span class="s1">            desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">,</span>
 <span class="s1">            browser_profile=</span><span class="si">{browser_profile}</span><span class="s1">,</span>
 <span class="s1">            proxy=</span><span class="si">{proxy}</span><span class="s1">,</span>
 <span class="s1">            keep_alive=</span><span class="si">{keep_alive}</span><span class="s1"></span>
 <span class="s1">            file_detector=</span><span class="si">{file_detector}</span><span class="s1">,</span>
-<span class="s1">            options=</span><span class="si">{options}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">            options=</span><span class="si">{options}</span><span class="s1">)&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
-        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Remote</span><span class="p">(</span><span class="n">command_executor</span><span class="o">=</span><span class="n">command_executor</span><span class="p">,</span>
-                            <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
-                            <span class="n">browser_profile</span><span class="o">=</span><span class="n">browser_profile</span><span class="p">,</span>
-                            <span class="n">proxy</span><span class="o">=</span><span class="n">proxy</span><span class="p">,</span>
-                            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">,</span>
-                            <span class="n">file_detector</span><span class="o">=</span><span class="n">file_detector</span><span class="p">,</span>
-                            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">)</span>
+        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Remote</span><span class="p">(</span>
+            <span class="n">command_executor</span><span class="o">=</span><span class="n">command_executor</span><span class="p">,</span>
+            <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
+            <span class="n">browser_profile</span><span class="o">=</span><span class="n">browser_profile</span><span class="p">,</span>
+            <span class="n">proxy</span><span class="o">=</span><span class="n">proxy</span><span class="p">,</span>
+            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">,</span>
+            <span class="n">file_detector</span><span class="o">=</span><span class="n">file_detector</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;chrome&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, executable_path=&quot;chromedriver&quot;, port=0,</span>
@@ -201,61 +190,52 @@
         <span class="n">options</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="s1">&#39;chrome&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">executable_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span>
-                                                       <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">service_args</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">keep_alive</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">]:</span>
-                <span class="n">options</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ChromeOptions</span><span class="p">()</span>
+                <span class="n">options</span> <span class="o">=</span> <span class="n">ChromeOptions</span><span class="p">()</span>
                 <span class="k">if</span> <span class="s1">&#39;arguments&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span>
+                <span class="p">):</span>
                     <span class="k">for</span> <span class="n">argument</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">]:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
-                <span class="k">if</span> <span class="s1">&#39;experimental_options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span>
-                        <span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">],</span>
-                            <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">experimental_option</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span>
-                            <span class="s1">&#39;experimental_options&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;experimental_options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">experimental_option</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">]:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">add_experimental_option</span><span class="p">(</span>
-                            <span class="n">experimental_option</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span>
-                            <span class="p">[</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">][</span><span class="n">experimental_option</span><span class="p">])</span>
+                            <span class="n">experimental_option</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">][</span><span class="n">experimental_option</span><span class="p">]</span>
+                        <span class="p">)</span>
                 <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span>
-                            <span class="s1">&#39;capabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">set_capability</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-                <span class="k">if</span> <span class="s1">&#39;binary_location&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span>
-                        <span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;binary_location&#39;</span><span class="p">],</span>
-                            <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
-                    <span class="n">options</span><span class="o">.</span><span class="n">binary_location</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span>
-                        <span class="s1">&#39;binary_location&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;binary_location&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;binary_location&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">options</span><span class="o">.</span><span class="n">binary_location</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;binary_location&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;Chrome(</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;Chrome(</span>
 <span class="s1">executable_path=</span><span class="si">{executable_path}</span><span class="s1">,</span>
 <span class="s1">port=</span><span class="si">{port}</span><span class="s1">,</span>
 <span class="s1">options=</span><span class="si">{options}</span><span class="s1">,</span>
@@ -263,7 +243,8 @@
 <span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">,</span>
 <span class="s1">service_log_path=</span><span class="si">{service_log_path}</span><span class="s1">,</span>
 <span class="s1">chrome_options=None,</span>
-<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
         <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Chrome</span><span class="p">(</span>
             <span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">,</span>
@@ -273,7 +254,8 @@
             <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
             <span class="n">service_log_path</span><span class="o">=</span><span class="n">service_log_path</span><span class="p">,</span>
             <span class="n">chrome_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Deprecated</span>
-            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">)</span>
+            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;firefox&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, firefox_profile=None, firefox_binary=None,</span>
@@ -292,73 +274,65 @@
         <span class="n">executable_path</span> <span class="o">=</span> <span class="s1">&#39;geckodriver&#39;</span>
         <span class="n">options</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">service_log_path</span> <span class="o">=</span> <span class="s2">&quot;geckodriver.log&quot;</span>
-        <span class="c1">#firefox_options = None</span>
+        <span class="c1"># firefox_options = None</span>
         <span class="n">service_args</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">log_path</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">keep_alive</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># keep_alive = True</span>
 
         <span class="k">if</span> <span class="s1">&#39;firefox&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="s1">&#39;firefox_profile&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]:</span>
-                <span class="n">firefox_profile</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">FirefoxProfile</span><span class="p">()</span>
-                <span class="k">if</span> <span class="s1">&#39;preferences&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span>
-                        <span class="s1">&#39;firefox_profile&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_profile&#39;</span><span class="p">][</span><span class="s1">&#39;preferences&#39;</span><span class="p">],</span>
-                            <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_profile&#39;</span><span class="p">][</span>
-                            <span class="s1">&#39;preferences&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">firefox_profile</span> <span class="o">=</span> <span class="n">FirefoxProfile</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s1">&#39;preferences&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_profile&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_profile&#39;</span><span class="p">][</span><span class="s1">&#39;preferences&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_profile&#39;</span><span class="p">][</span><span class="s1">&#39;preferences&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                         <span class="n">firefox_profile</span><span class="o">.</span><span class="n">set_preference</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="s1">&#39;firefox_binary&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_binary&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;firefox_binary&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_binary&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">firefox_binary</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;firefox_binary&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;timeout&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;timeout&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;timeout&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;timeout&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;timeout&#39;</span><span class="p">])</span>
 
-            <span class="c1">#if &#39;capabilities&#39; in data[&#39;firefox&#39;]:</span>
+            <span class="c1"># if &#39;capabilities&#39; in data[&#39;firefox&#39;]:</span>
             <span class="c1">#    capabilities = data[&#39;firefox&#39;][&#39;capabilities&#39;]</span>
 
-            <span class="c1">#if &#39;proxy&#39; in data[&#39;firefox&#39;]:</span>
+            <span class="c1"># if &#39;proxy&#39; in data[&#39;firefox&#39;]:</span>
             <span class="c1">#    proxy = data[&#39;firefox&#39;][&#39;proxy&#39;]</span>
 
-            <span class="c1">#if &#39;proxy&#39; in data[&#39;firefox&#39;]:</span>
+            <span class="c1"># if &#39;proxy&#39; in data[&#39;firefox&#39;]:</span>
             <span class="c1">#    proxy = data[&#39;firefox&#39;][&#39;proxy&#39;]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">executable_path</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">],</span> <span class="s1">&#39;dict&#39;</span><span class="p">):</span>
-                <span class="n">options</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">FirefoxOptions</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">options</span> <span class="o">=</span> <span class="n">FirefoxOptions</span><span class="p">()</span>
                 <span class="k">if</span> <span class="s1">&#39;arguments&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span>
-                    <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+                <span class="p">):</span>
                     <span class="k">for</span> <span class="n">argument</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">]:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">service_args</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;firefox&#39;</span><span class="p">][</span><span class="s1">&#39;log_path&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;Firefox(</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;Firefox(</span>
 <span class="s1">firefox_profile=</span><span class="si">{firefox_profile}</span><span class="s1">,</span>
 <span class="s1">firefox_binary=</span><span class="si">{firefox_binary}</span><span class="s1">,</span>
 <span class="s1">timeout=</span><span class="si">{timeout}</span><span class="s1">,</span>
@@ -370,7 +344,8 @@
 <span class="s1">firefox_options=None,  # Deprecated</span>
 <span class="s1">service_args=</span><span class="si">{service_args}</span><span class="s1">,</span>
 <span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">,</span>
-<span class="s1">log_path=</span><span class="si">{log_path}</span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">log_path=</span><span class="si">{log_path}</span><span class="s1">&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
         <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Firefox</span><span class="p">(</span>
             <span class="n">firefox_profile</span><span class="o">=</span><span class="n">firefox_profile</span><span class="p">,</span>
@@ -384,7 +359,8 @@
             <span class="n">firefox_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Deprecated</span>
             <span class="n">service_args</span><span class="o">=</span><span class="n">service_args</span><span class="p">,</span>
             <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
-            <span class="n">log_path</span><span class="o">=</span><span class="n">log_path</span><span class="p">)</span>
+            <span class="n">log_path</span><span class="o">=</span><span class="n">log_path</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;edge&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, executable_path=&#39;MicrosoftWebDriver.exe&#39;,</span>
@@ -401,52 +377,48 @@
         <span class="n">keep_alive</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="s1">&#39;edge&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">executable_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
                 <span class="n">capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span>
-                                                     <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;verbose&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;verbose&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;verbose&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;verbose&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">verbose</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;verbose&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;log_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">keep_alive</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;Edge(executable_path=executable_path,</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;Edge(executable_path=executable_path,</span>
 <span class="s1">capabilities=</span><span class="si">{capabilities}</span><span class="s1">,</span>
 <span class="s1">port=</span><span class="si">{port}</span><span class="s1">,</span>
 <span class="s1">verbose=</span><span class="si">{verbose}</span><span class="s1">,</span>
 <span class="s1">service_log_path=</span><span class="si">{service_log_path}</span><span class="s1">,</span>
 <span class="s1">log_path=</span><span class="si">{log_path}</span><span class="s1">,</span>
-<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
-        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span><span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">,</span>
-                          <span class="n">capabilities</span><span class="o">=</span><span class="n">capabilities</span><span class="p">,</span>
-                          <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
-                          <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
-                          <span class="n">service_log_path</span><span class="o">=</span><span class="n">service_log_path</span><span class="p">,</span>
-                          <span class="n">log_path</span><span class="o">=</span><span class="n">log_path</span><span class="p">,</span>
-                          <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">)</span>
+        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Edge</span><span class="p">(</span>
+            <span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">,</span>
+            <span class="n">capabilities</span><span class="o">=</span><span class="n">capabilities</span><span class="p">,</span>
+            <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+            <span class="n">service_log_path</span><span class="o">=</span><span class="n">service_log_path</span><span class="p">,</span>
+            <span class="n">log_path</span><span class="o">=</span><span class="n">log_path</span><span class="p">,</span>
+            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;android&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, host=&quot;localhost&quot;, port=4444, desired_capabilities=DesiredCapabilities.ANDROID):</span>
@@ -454,33 +426,31 @@
 
         <span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="mi">4444</span>
-        <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">desired_capabilities</span><span class="o">.</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">ANDROID</span>
+        <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">ANDROID</span>
 
         <span class="k">if</span> <span class="s1">&#39;android&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;host&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;host&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">host</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;android&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        Android(</span>
 <span class="s1">host=</span><span class="si">{host}</span><span class="s1">,</span>
 <span class="s1">port=</span><span class="si">{port}</span><span class="s1">,</span>
-<span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">)&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
-        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Android</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
-                             <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
-                             <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">)</span>
+        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Android</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;ie&#39;</span> <span class="ow">or</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;iexplore&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, executable_path=&#39;IEDriverServer.exe&#39;, capabilities=None,</span>
@@ -491,80 +461,69 @@
 
         <span class="n">restricted_mode</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">executable_path</span> <span class="o">=</span> <span class="s1">&#39;IEDriverServer.exe&#39;</span>
-        <span class="n">capabilities</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_PORT</span>
-        <span class="n">timeout</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_TIMEOUT</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_HOST</span><span class="p">,</span>
-        <span class="n">log_level</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_LOG_LEVEL</span>
-        <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_SERVICE_LOG_PATH</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="c1">#ie_options = None</span>
+        <span class="n">capabilities</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">selenium</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_PORT</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="n">selenium</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_TIMEOUT</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="p">(</span><span class="n">selenium</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_HOST</span><span class="p">,)</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">selenium</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_LOG_LEVEL</span>
+        <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">selenium</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">ie</span><span class="o">.</span><span class="n">webdriver</span><span class="o">.</span><span class="n">DEFAULT_SERVICE_LOG_PATH</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span>
+        <span class="c1"># ie_options = None</span>
         <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">log_file</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">keep_alive</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="s1">&#39;ie&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;restricted_mode&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;restricted_mode&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;restricted_mode&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;restricted_mode&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">restricted_mode</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;restricted_mode&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
                 <span class="n">capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span>
-                                                   <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;timeout&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;timeout&#39;</span><span class="p">],</span>
-                                                      <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;timeout&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;timeout&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">timeout</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;timeout&#39;</span><span class="p">])</span>
 
-            <span class="k">if</span> <span class="s1">&#39;host&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">],</span>
-                                                   <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;host&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">host</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;log_level&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;log_level&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;log_level&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;log_level&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">log_level</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;log_level&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">],</span>
-                                                      <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">options</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">IeOptions</span><span class="p">()</span>
-                <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">options</span> <span class="o">=</span> <span class="n">IeOptions</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">set_capability</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="k">if</span> <span class="s1">&#39;additional_options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;additional_options&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span>
-                            <span class="s1">&#39;additional_options&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;additional_options&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;additional_options&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">add_additional_option</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;log_file&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;log_file&#39;</span><span class="p">],</span>
-                                                       <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;log_file&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;log_file&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">log_file</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;log_file&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">keep_alive</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ie&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;Ie(</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;Ie(</span>
 <span class="s1">restricted_mode=</span><span class="si">{restricted_mode}</span><span class="s1">,</span>
 <span class="s1">executable_path=</span><span class="si">{executable_path}</span><span class="s1">,</span>
 <span class="s1">capabilities=</span><span class="si">{capabilities}</span><span class="s1">,</span>
@@ -577,7 +536,8 @@
 <span class="s1">ie_options=None, # Deprecated</span>
 <span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">,</span>
 <span class="s1">log_file=</span><span class="si">{log_file}</span><span class="s1">,</span>
-<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
         <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Ie</span><span class="p">(</span>
             <span class="n">restricted_mode</span><span class="o">=</span><span class="n">restricted_mode</span><span class="p">,</span>
@@ -592,7 +552,8 @@
             <span class="n">ie_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Deprecated</span>
             <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
             <span class="n">log_file</span><span class="o">=</span><span class="n">log_file</span><span class="p">,</span>
-            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">)</span>
+            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;opera&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, executable_path=None, port=0,</span>
@@ -607,71 +568,62 @@
         <span class="n">service_args</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">service_log_path</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="c1">#opera_options = None</span>
+        <span class="c1"># opera_options = None</span>
         <span class="n">keep_alive</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="k">if</span> <span class="s1">&#39;opera&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">executable_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span>
-                                                      <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="s1">&#39;options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]:</span>
-                <span class="n">options</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">ChromeOptions</span><span class="p">()</span>
-                <span class="k">if</span> <span class="s1">&#39;arguments&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">options</span> <span class="o">=</span> <span class="n">ChromeOptions</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s1">&#39;arguments&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">argument</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">]:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
-                <span class="k">if</span> <span class="s1">&#39;experimental_options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span>
-                        <span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">],</span>
-                            <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">experimental_option</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span>
-                            <span class="s1">&#39;experimental_options&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s1">&#39;experimental_options&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">experimental_option</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">]:</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">add_experimental_option</span><span class="p">(</span>
-                            <span class="n">experimental_option</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span>
-                            <span class="p">[</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">][</span><span class="n">experimental_option</span><span class="p">])</span>
+                            <span class="n">experimental_option</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;experimental_options&#39;</span><span class="p">][</span><span class="n">experimental_option</span><span class="p">]</span>
+                        <span class="p">)</span>
                 <span class="k">if</span> <span class="s1">&#39;capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
-                    <span class="p">):</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+                <span class="p">):</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;capabilities&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="n">options</span><span class="o">.</span><span class="n">set_capability</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="k">if</span> <span class="s1">&#39;binary_location&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;binary_location&#39;</span><span class="p">],</span>
-                    <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
-                    <span class="n">options</span><span class="o">.</span><span class="n">binary_location</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span>
-                        <span class="s1">&#39;binary_location&#39;</span><span class="p">]</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;binary_location&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">options</span><span class="o">.</span><span class="n">binary_location</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;binary_location&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">service_args</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;keep_alive&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
                 <span class="n">keep_alive</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;opera&#39;</span><span class="p">][</span><span class="s1">&#39;keep_alive&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;Opera(executable_path=</span><span class="si">{executable_path}</span><span class="s1">,</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;Opera(executable_path=</span><span class="si">{executable_path}</span><span class="s1">,</span>
 <span class="s1">port=</span><span class="si">{port}</span><span class="s1">,</span>
 <span class="s1">options=</span><span class="si">{options}</span><span class="s1">,</span>
 <span class="s1">service_args=</span><span class="si">{service_args}</span><span class="s1">,</span>
 <span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">,</span>
 <span class="s1">service_log_path=</span><span class="si">{service_log_path}</span><span class="s1">,</span>
 <span class="s1">opera_options=None,  # Deprecated</span>
-<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">keep_alive=</span><span class="si">{keep_alive}</span><span class="s1">)&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
         <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">Opera</span><span class="p">(</span>
             <span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">,</span>
@@ -681,7 +633,8 @@
             <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
             <span class="n">service_log_path</span><span class="o">=</span><span class="n">service_log_path</span><span class="p">,</span>
             <span class="n">opera_options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># Deprecated</span>
-            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">)</span>
+            <span class="n">keep_alive</span><span class="o">=</span><span class="n">keep_alive</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;phantomjs&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        def __init__(self, executable_path=&quot;phantomjs&quot;,</span>
@@ -691,49 +644,52 @@
 
         <span class="n">executable_path</span> <span class="o">=</span> <span class="s2">&quot;phantomjs&quot;</span>
         <span class="n">port</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">desired_capabilities</span><span class="o">.</span><span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">PHANTOMJS</span>
+        <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">DesiredCapabilities</span><span class="o">.</span><span class="n">PHANTOMJS</span>
         <span class="n">service_args</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">service_log_path</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="s1">&#39;phantomjs&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">if</span> <span class="s1">&#39;executable_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="n">executable_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;executable_path&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;port&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">])</span>
 
             <span class="k">if</span> <span class="s1">&#39;desired_capabilities&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span>
-                    <span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">],</span> <span class="nb">dict</span>
+            <span class="p">):</span>
+                <span class="n">desired_capabilities</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;desired_capabilities&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="s1">&#39;service_args&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">service_args</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;service_args&#39;</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="s1">&#39;service_log_path&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">NoneType</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="p">):</span>
                 <span class="n">service_log_path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;phantomjs&#39;</span><span class="p">][</span><span class="s1">&#39;service_log_path&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No settings found for webdriver </span><span class="si">{name}</span><span class="s1">. Loading defaults.&#39;</span><span class="p">)</span>
 
-        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">webdriver_ = PhantomJS(</span>
 <span class="s1">executable_path=</span><span class="si">{executable_path}</span><span class="s1">,</span>
 <span class="s1">port=</span><span class="si">{port}</span><span class="s1">,</span>
 <span class="s1">desired_capabilities=</span><span class="si">{desired_capabilities}</span><span class="s1">,</span>
 <span class="s1">service_args=</span><span class="si">{service_args}</span><span class="s1">,</span>
 <span class="s1">service_log_path=</span><span class="si">{service_log_path}</span><span class="s1">)</span>
-<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="s1">&#39;&#39;&#39;</span>
+        <span class="p">)</span>
 
-        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">PhantomJS</span><span class="p">(</span><span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">,</span>
-                               <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
-                               <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
-                               <span class="n">service_args</span><span class="o">=</span><span class="n">service_args</span><span class="p">,</span>
-                               <span class="n">service_log_path</span><span class="o">=</span><span class="n">service_log_path</span><span class="p">)</span>
+        <span class="n">webdriver_</span> <span class="o">=</span> <span class="n">PhantomJS</span><span class="p">(</span>
+            <span class="n">executable_path</span><span class="o">=</span><span class="n">executable_path</span><span class="p">,</span>
+            <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+            <span class="n">desired_capabilities</span><span class="o">=</span><span class="n">desired_capabilities</span><span class="p">,</span>
+            <span class="n">service_args</span><span class="o">=</span><span class="n">service_args</span><span class="p">,</span>
+            <span class="n">service_log_path</span><span class="o">=</span><span class="n">service_log_path</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">InvalidWebdriver</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{name}</span><span class="s1"> is an invalid webdriver.&#39;</span><span class="p">)</span>
 
@@ -743,76 +699,70 @@
             <span class="n">x</span> <span class="o">=</span> <span class="mi">1920</span>
             <span class="n">y</span> <span class="o">=</span> <span class="mi">1080</span>
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">],</span>
-                          <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">set_window_size</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span>
                 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;size&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>
 
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">webdriver_</span><span class="p">,</span> <span class="n">Chrome</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
-                        <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;--window-size&#39;</span> <span class="ow">in</span> <span class="n">x</span>
-                            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">])</span> <span class="ow">or</span>
-                        <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;--start-maximized&#39;</span> <span class="ow">in</span> <span class="n">x</span>
-                            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">])):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">webdriver_</span><span class="p">,</span> <span class="n">Chrome</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="p">(</span>
+                    <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;--window-size&#39;</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">])</span>
+                    <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="s1">&#39;--start-maximized&#39;</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="p">):</span>
                 <span class="n">set_window_size</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="k">if</span> <span class="n">set_window_size</span><span class="p">:</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Setting webdriver window size to </span><span class="si">{x}</span><span class="s1">x</span><span class="si">{y}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="n">webdriver_</span><span class="o">.</span><span class="n">set_window_size</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s1">&#39;full_screen&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;full_screen&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">and</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">set_full_screen</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">webdriver_</span><span class="p">,</span> <span class="n">Chrome</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span>
-                        <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;--start-maximized&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span>
-                            <span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">isinstance</span><span class="p">(</span><span class="n">webdriver_</span><span class="p">,</span> <span class="n">Chrome</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="s1">&#39;--start-maximized&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;chrome&#39;</span><span class="p">][</span><span class="s1">&#39;options&#39;</span><span class="p">][</span><span class="s1">&#39;arguments&#39;</span><span class="p">]</span>
+                <span class="p">):</span>
                     <span class="n">set_full_screen</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span>
 
             <span class="k">if</span> <span class="n">set_full_screen</span><span class="p">:</span>
                 <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting webdriver to full screen.&#39;</span><span class="p">)</span>
                 <span class="n">webdriver_</span><span class="o">.</span><span class="n">maximize_window</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="s1">&#39;implicitly_wait&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
-                <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;implicitly_wait&#39;</span><span class="p">],</span>
-            <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;implicitly_wait&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;Setting webdriver implicit wait time to </span><span class="si">{data[name][&quot;implicitly_wait&quot;]}</span><span class="s1">.&#39;</span>
-            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="s1">&#39;implicitly_wait&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;implicitly_wait&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
+            <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;implicitly_wait&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Setting webdriver implicit wait time to </span><span class="si">{data[name][&quot;implicitly_wait&quot;]}</span><span class="s1">.&#39;</span><span class="p">)</span>
             <span class="n">webdriver_</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;implicitly_wait&#39;</span><span class="p">]))</span>
 
         <span class="k">if</span> <span class="s1">&#39;coordinates&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
             <span class="n">latitude</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">longitude</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">],</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="n">latitude</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">][</span><span class="s1">&#39;latitude&#39;</span><span class="p">]</span>
                 <span class="n">longitude</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;coordinates&#39;</span><span class="p">][</span><span class="s1">&#39;longitude&#39;</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="n">latitude</span> <span class="ow">and</span> <span class="n">longitude</span><span class="p">:</span>
-                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s1">&#39;Setting webdriver geolcation to </span><span class="si">{data[name][&quot;coordinates&quot;]}</span><span class="s1">.&#39;</span>
-                <span class="p">)</span>
+                <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Setting webdriver geolcation to </span><span class="si">{data[name][&quot;coordinates&quot;]}</span><span class="s1">.&#39;</span><span class="p">)</span>
                 <span class="n">webdriver_</span><span class="o">.</span><span class="n">set_coordinates</span><span class="p">((</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">))</span>
 
-    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="n">f</span><span class="s1">&#39;Loaded webdriver </span><span class="si">{webdriver_.name}</span><span class="s1"> in {round(time.time() - start_time, 2)} seconds.&#39;</span>
-    <span class="p">)</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Loaded webdriver </span><span class="si">{webdriver_.name}</span><span class="s1"> in {round(time.time() - start_time, 2)} seconds.&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">webdriver_</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;DEFAULT_CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;MOBILE_CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;HEADLESS_CONFIG&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;create_driver_config&#39;</span><span class="p">,</span> <span class="s1">&#39;load_driver_from_config&#39;</span>
-<span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DEFAULT_CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;MOBILE_CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;HEADLESS_CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;create_driver_config&#39;</span><span class="p">,</span> <span class="s1">&#39;load_driver_from_config&#39;</span><span class="p">]</span>
 </pre></div>
 
           </div>
@@ -867,7 +817,7 @@
       &copy;.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -28,7 +28,10 @@
         "options": {
             "arguments": [
                 "--headless",
-                "--window-size=1920,1080"
+                "--window-size=1920,1080",
+                "--disable-infobars",
+                "--disable-popup-blocking",
+                "--disable-extensions"
             ],
             "experimental_options": {
                 "excludeSwitches": [

@@ -26,8 +26,21 @@ class Js:
 
     def get_bounding_client_rect(self, element: WebElement) -> dict:
         """ Gets the bounding client rect of an element. """
+        return self.driver.execute_script('return arguments[0].getBoundingClientRect()', element)
+
+    def get_attribute(self, element: WebElement, attribute: str):
+        """ Gets an element's attribute. """
+        return self.driver.execute_script('return arguments[0].getAttribute(arguments[1])', element, attribute)
+
+    def set_attribute(self, element: WebElement, attribute: str, value):
+        """ Sets an element's attribute. """
         return self.driver.execute_script(
-            'return arguments[0].getBoundingClientRect()', element)
+            'return arguments[0].setAttribute(arguments[1], arguments[2])', element, attribute, value
+        )
+
+    def remove_attribute(self, element: WebElement, attribute: str):
+        """ Removes an element's attribute. """
+        return self.driver.execute_script('return arguments[0].removeAttribute(arguments[1])', element, attribute)
 
 
 class Console:
@@ -51,7 +64,10 @@ class MouseEvents:
         var clickEvent = document.createEvent('MouseEvents');
         clickEvent.initEvent(arguments[1], true, true);
         arguments[0].dispatchEvent(clickEvent);
-        """, element, click_event)
+        """,
+            element,
+            click_event,
+        )
 
     def click(self, element):
         self._trigger_mouse_event(element, 'click')
@@ -78,13 +94,10 @@ class LocalStorage:
         self.driver = driver
 
     def get_item(self, key):
-        return self.driver.execute_script(
-            "return window.localStorage.getItem(arguments[0])", key)
+        return self.driver.execute_script("return window.localStorage.getItem(arguments[0])", key)
 
     def set_item(self, key, value):
-        self.driver.execute_script(
-            "window.localStorage.getItem(arguments[0], arguments[1])", key,
-            value)
+        self.driver.execute_script("window.localStorage.getItem(arguments[0], arguments[1])", key, value)
 
     def clear(self):
         self.driver.execute_script("window.localStorage.clear()")
@@ -94,8 +107,7 @@ class IndexedDB:
     def __init__(self, driver):
         self.driver = driver
 
-    def get_database_object(self, database_name: str,
-                            object_name: str) -> dict:
+    def get_database_object(self, database_name: str, object_name: str) -> dict:
         """ Gets an object from a database in IndexedDB by name.
 
         :param database_name: Name of the database to search in.
@@ -127,8 +139,7 @@ class IndexedDB:
             };
         };
         """
-        return self.driver.execute_async_script(script, database_name,
-                                                object_name)
+        return self.driver.execute_async_script(script, database_name, object_name)
 
     def delete_database(self, database_name: str):
         script = """var databaseName = arguments[0]

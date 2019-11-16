@@ -1,20 +1,27 @@
 import json
-import logging
 
-from selenium.webdriver import ActionChains as Actions
 from selenium.webdriver import Chrome as Chrome_
-from selenium.webdriver.common.keys import Keys
 
 from .extended_webdriver import ExtendedWebdriver
 from .window import Window
 
-LOGGER = logging.getLogger('extended_webdrivers')
-
 
 class Chrome(Chrome_, ExtendedWebdriver):
-    def set_network_conditions(self, **network_conditions):
-        super().set_network_conditions(**network_conditions)
-        LOGGER.info(f'Set network conditions: {network_conditions}')
+    def online(self, **kwargs):
+        latency = kwargs.get('latency') or 0
+        download_throughput = kwargs.get('download_throughput') or 500 * 1024
+        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
+        self.set_network_conditions(
+            offline=False, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
+        )
+
+    def offline(self, **kwargs):
+        latency = kwargs.get('latency') or 0
+        download_throughput = kwargs.get('download_throughput') or 500 * 1024
+        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
+        self.set_network_conditions(
+            offline=True, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
+        )
 
     def get_default_zoom(self):
         """ EXPERIMENTAL - Get the current default zoom level. """
@@ -26,7 +33,8 @@ class Chrome(Chrome_, ExtendedWebdriver):
             chrome.settingsPrivate.getDefaultZoom(function(e) {
                 callback(e)
             })
-            ''')
+            '''
+            )
             self.close()
             return float(result)
 
@@ -35,8 +43,7 @@ class Chrome(Chrome_, ExtendedWebdriver):
         self.execute_script('window.open()')
         with Window(self):
             self.get('chrome://settings/')
-            self.execute_script(
-                f'chrome.settingsPrivate.setDefaultZoom({percent / 100});')
+            self.execute_script(f'chrome.settingsPrivate.setDefaultZoom({percent / 100});')
             self.close()
 
     def reset_default_zoom(self):

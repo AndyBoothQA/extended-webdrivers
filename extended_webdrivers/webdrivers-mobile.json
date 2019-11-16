@@ -29,7 +29,8 @@
             "arguments": [
                 "--disable-infobars",
                 "--start-maximized",
-                "--disable-popup-blocking"
+                "--disable-popup-blocking",
+                "--disable-extensions"
             ],
             "experimental_options": {
                 "w3c": false,

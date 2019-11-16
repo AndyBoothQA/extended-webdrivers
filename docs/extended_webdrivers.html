@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>extended_webdrivers package &#8212; Extended Webdrivers 0.1.12 documentation</title>
+    <title>extended_webdrivers package &#8212; Extended Webdrivers 0.2.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -51,6 +51,29 @@
 <em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.chrome.</code><code class="sig-name descname">Chrome</code><span class="sig-paren">(</span><em class="sig-param">executable_path='chromedriver'</em>, <em class="sig-param">port=0</em>, <em class="sig-param">options=None</em>, <em class="sig-param">service_args=None</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">service_log_path=None</em>, <em class="sig-param">chrome_options=None</em>, <em class="sig-param">keep_alive=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.chrome.webdriver.WebDriver</span></code>, <a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">extended_webdrivers.extended_webdriver.ExtendedWebdriver</span></code></a></p>
 <dl class="method">
+<dt id="extended_webdrivers.chrome.Chrome.get_default_zoom">
+<code class="sig-name descname">get_default_zoom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome.get_default_zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome.get_default_zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>EXPERIMENTAL - Get the current default zoom level.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.chrome.Chrome.reset_default_zoom">
+<code class="sig-name descname">reset_default_zoom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome.reset_default_zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome.reset_default_zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>EXPERIMENTAL - Resets the default zoom level.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.chrome.Chrome.send_cmd">
+<code class="sig-name descname">send_cmd</code><span class="sig-paren">(</span><em class="sig-param">cmd</em>, <em class="sig-param">params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome.send_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome.send_cmd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="extended_webdrivers.chrome.Chrome.set_default_zoom">
+<code class="sig-name descname">set_default_zoom</code><span class="sig-paren">(</span><em class="sig-param">percent</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome.set_default_zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome.set_default_zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>EXPERIMENTAL - Set the current default zoom level.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="extended_webdrivers.chrome.Chrome.set_network_conditions">
 <code class="sig-name descname">set_network_conditions</code><span class="sig-paren">(</span><em class="sig-param">**network_conditions</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/chrome.html#Chrome.set_network_conditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.chrome.Chrome.set_network_conditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets Chrome network emulation settings.</p>
@@ -82,22 +105,27 @@ upload_throughput=500 * 1024)  # maximal throughput</p>
 <dt id="extended_webdrivers.config.create_driver_config">
 <code class="sig-prename descclassname">extended_webdrivers.config.</code><code class="sig-name descname">create_driver_config</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/config.html#create_driver_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.config.create_driver_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new webdriver configuration file based off the default.</p>
-<p>name - The name of the new configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the new configuration file.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="extended_webdrivers.config.load_driver_from_config">
 <code class="sig-prename descclassname">extended_webdrivers.config.</code><code class="sig-name descname">load_driver_from_config</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">config_name='webdrivers-default.json'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/config.html#load_driver_from_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.config.load_driver_from_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a webdriver with settings from a config file.</p>
-<p>name - The name of the webdriver to load.
-config_name - The name of the config file to load. This first searches for</p>
-<blockquote>
-<div><p>default config files in the extended_webdrivers package. If
-it can’t find any, it then searches the current directory.</p>
-</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtendedWebdriver</span></code></a></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the webdriver to load.</p></li>
+<li><p><strong>config_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The name of the config file to load. This first searches for default config files in the
+extended_webdrivers package. If it can’t find any, it then searches the current directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="extended_webdrivers.extended_webdriver.ExtendedWebdriver"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExtendedWebdriver</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -118,9 +146,8 @@ it can’t find any, it then searches the current directory.</p>
 <dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver">
 <em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.extended_webdriver.</code><code class="sig-name descname">ExtendedWebdriver</code><span class="sig-paren">(</span><em class="sig-param">command_executor='http://127.0.0.1:4444/wd/hub'</em>, <em class="sig-param">desired_capabilities=None</em>, <em class="sig-param">browser_profile=None</em>, <em class="sig-param">proxy=None</em>, <em class="sig-param">keep_alive=False</em>, <em class="sig-param">file_detector=None</em>, <em class="sig-param">options=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">selenium.webdriver.remote.webdriver.WebDriver</span></code></p>
-<p>Extends the funcionality of the selenium webdriver with additional methods
-to get the state of jQuery and Angular calls, change the geolocation of the
-browser, and directly call javascript on elements.</p>
+<p>Extends the funcionality of the selenium webdriver in Python with additional methods to get the state of jQuery and
+Angular calls, change the geolocation of the browser, directly call javascript on elements, and more.</p>
 <dl class="method">
 <dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.fullscreen">
 <em class="property">property </em><code class="sig-name descname">fullscreen</code><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.fullscreen" title="Permalink to this definition">¶</a></dt>
@@ -145,7 +172,7 @@ browser, and directly call javascript on elements.</p>
 <dl class="method">
 <dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_current_frame">
 <code class="sig-name descname">get_current_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.get_current_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_current_frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current iframe element, None if not in an iframe.</p>
+<dd><p>Gets the current frame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WebElement</span></code></p>
@@ -156,7 +183,7 @@ browser, and directly call javascript on elements.</p>
 <dl class="method">
 <dt id="extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_timezone_offset">
 <code class="sig-name descname">get_timezone_offset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/extended_webdriver.html#ExtendedWebdriver.get_timezone_offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.extended_webdriver.ExtendedWebdriver.get_timezone_offset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the timezone offset of the browser in minutes.</p>
+<dd><p>Gets the timezone offset of the browser in minutes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
@@ -265,18 +292,18 @@ browser, and directly call javascript on elements.</p>
 <dd><p>Goes through a series of checks to verify the the web page is ready for use.
 Selenium does a majority of this but this adds extended functions by checking
 jQuery, Angular and the document ready state.</p>
-<blockquote>
-<div><p>pause - The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)
-poll_rate - How often in seconds to check the state of the web page. (Default: 0.5)
-timeout - The amount of time in seconds to allow the web page to report as not ready until bypassing.</p>
-<blockquote>
-<div><p>If this occurs, technically there can be an issue, but code execution will continue
-without raising an exception. (Default: 10)</p>
-</div></blockquote>
-</div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pause</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)</p></li>
+<li><p><strong>poll_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – How often in seconds to check the state of the web page. (Default: 0.5)</p></li>
+<li><p><strong>timeout</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The amount of time in seconds to allow the web page to report as not ready until bypassing.
+If this occurs, technically there can be an issue, but code execution will continue
+without raising an exception. (Default: 10)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -507,6 +534,13 @@ without raising an exception. (Default: 10)</p>
 </div>
 <div class="section" id="module-extended_webdrivers.window">
 <span id="extended-webdrivers-window-module"></span><h2>extended_webdrivers.window module<a class="headerlink" href="#module-extended_webdrivers.window" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="extended_webdrivers.window.NoNewWindow">
+<em class="property">exception </em><code class="sig-prename descclassname">extended_webdrivers.window.</code><code class="sig-name descname">NoNewWindow</code><a class="reference internal" href="_modules/extended_webdrivers/window.html#NoNewWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.window.NoNewWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Thrown when the outermost window is the same as the current window.</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="extended_webdrivers.window.Window">
 <em class="property">class </em><code class="sig-prename descclassname">extended_webdrivers.window.</code><code class="sig-name descname">Window</code><span class="sig-paren">(</span><em class="sig-param">browser</em>, <em class="sig-param">child_window=None</em>, <em class="sig-param">close_on_exit=True</em>, <em class="sig-param">remember_frame=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/extended_webdrivers/window.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#extended_webdrivers.window.Window" title="Permalink to this definition">¶</a></dt>
@@ -517,10 +551,8 @@ without raising an exception. (Default: 10)</p>
 </div>
 <div class="section" id="module-extended_webdrivers">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-extended_webdrivers" title="Permalink to this headline">¶</a></h2>
-<p>Extends the funcionality of the selenium webdriver in Python with 
-additional methods to get the state of jQuery and Angular calls, 
-change the geolocation of the browser, and directly call javascript 
-on elements, and more.</p>
+<p>Extends the funcionality of the selenium webdriver in Python with additional methods to get the state of jQuery and
+Angular calls, change the geolocation of the browser, directly call javascript on elements, and more.</p>
 </div>
 </div>
 
@@ -575,7 +607,7 @@ on elements, and more.</p>
       &copy;.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

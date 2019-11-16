@@ -1,8 +1,6 @@
 """
-Extends the funcionality of the selenium webdriver in Python with 
-additional methods to get the state of jQuery and Angular calls, 
-change the geolocation of the browser, and directly call javascript 
-on elements, and more.
+Extends the funcionality of the selenium webdriver in Python with additional methods to get the state of jQuery and
+Angular calls, change the geolocation of the browser, directly call javascript on elements, and more.
 """
 
 from .android import Android
@@ -16,4 +14,4 @@ from .opera import Opera
 from .phantomjs import PhantomJS
 from .remote import Remote
 
-__version__ = '0.1.13'
+__version__ = '0.2.1'

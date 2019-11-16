@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>extended_webdrivers.frame &#8212; Extended Webdrivers 0.1.12 documentation</title>
+    <title>extended_webdrivers.frame &#8212; Extended Webdrivers 0.2.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -53,20 +53,20 @@
 
         <span class="c1"># Switch to the child frame.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">child_frame</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">wait_for_stable</span><span class="p">(</span><span class="n">pause</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="c1"># self.browser.wait_for_stable(pause=2.0)</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Switched to frame </span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">child_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Switched to frame </span><span class="si">{self.child_frame}</span><span class="s1"> from </span><span class="si">{self.parent_frame}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Switched to frame </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">child_frame</span><span class="p">))</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Switched to frame </span><span class="si">{self.child_frame}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Focuses on the child frame&#39;s body element.</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">js</span><span class="o">.</span><span class="n">focus</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_tag_name</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">))</span>
-        <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
-            <span class="k">pass</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        # Focuses on the child frame&#39;s body element.</span>
+<span class="sd">        try:</span>
+<span class="sd">            self.browser.js.focus(self.browser.find_element_by_tag_name(&#39;body&#39;))</span>
+<span class="sd">        except NoSuchElementException:</span>
+<span class="sd">            pass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_switch_to</span><span class="p">()</span>
@@ -76,15 +76,14 @@
         <span class="sd">&quot;&quot;&quot; Switches to the previous frame. &quot;&quot;&quot;</span>
         <span class="c1"># Switch to default frame.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_window</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">wait_for_stable</span><span class="p">(</span><span class="n">pause</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="c1"># self.browser.wait_for_stable(pause=2.0)</span>
 
         <span class="c1"># Switch to parent frame if it exists.</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">wait_for_stable</span><span class="p">(</span><span class="n">pause</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+            <span class="c1"># self.browser.wait_for_stable(pause=2.0)</span>
 
-            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Switched to frame </span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">parent_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">child_frame</span><span class="p">))</span>
+            <span class="n">LOGGER</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Switched to frame </span><span class="si">{self.parent_frame}</span><span class="s1"> from </span><span class="si">{self.child_frame}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_switch_from</span><span class="p">()</span></div>
@@ -142,7 +141,7 @@
       &copy;.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

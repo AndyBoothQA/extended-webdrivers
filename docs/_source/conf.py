@@ -13,8 +13,6 @@
 import os
 import sys
 
-import extended_webdrivers
-
 sys.path.insert(0, os.path.abspath('../../extended_webdrivers'))
 
 
@@ -25,7 +23,7 @@ project = 'Extended Webdrivers'
 author = 'Dillon Miller'
 
 # The full version, including alpha/beta/rc tags
-release = extended_webdrivers.__version__
+release = '0.2.1'
 
 # -- General configuration ---------------------------------------------------
 
