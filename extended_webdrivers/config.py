@@ -310,8 +310,10 @@ def load_driver(name: str, data: dict) -> ExtendedWebdriver:
             if isinstance(options, dict):
                 arguments = options.get('arguments')
                 if isinstance(arguments, list):
-                    if '--window-size' in arguments or '--start-maximized' in arguments:
-                        x, y = 0, 0
+                    for argument in arguments:
+                        if '--window-size' in argument or '--start-maximized' in argument:
+                            x, y = 0, 0
+                            break
 
         if x and y:
             LOGGER.info(f'Setting webdriver window size to {x}x{y}')
