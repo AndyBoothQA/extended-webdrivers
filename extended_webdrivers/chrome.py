@@ -1,5 +1,6 @@
 import json
 
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver import Chrome as Chrome_
 
 from .extended_webdriver import ExtendedWebdriver
@@ -7,6 +8,22 @@ from .window import Window
 
 
 class Chrome(Chrome_, ExtendedWebdriver):
+    def is_online(self):
+        try:
+            network_conditions = self.get_network_conditions()
+            return network_conditions['offline'] is False
+        except WebDriverException:
+            return True
+
+    def is_offline(self):
+        return not self.is_online()
+
+    def is_open(self):
+        try:
+            return self.current_url is not None
+        except WebDriverException:
+            return False
+
     def online(self, **kwargs):
         latency = kwargs.get('latency') or 0
         download_throughput = kwargs.get('download_throughput') or 500 * 1024
