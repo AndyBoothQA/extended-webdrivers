@@ -24,21 +24,13 @@ class Chrome(Chrome_, ExtendedWebdriver):
         except WebDriverException:
             return False
 
-    def online(self, **kwargs):
-        latency = kwargs.get('latency') or 0
-        download_throughput = kwargs.get('download_throughput') or 500 * 1024
-        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
-        self.set_network_conditions(
-            offline=False, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
-        )
+    @property
+    def online(self):
+        return OnlineContextManager(self)
 
-    def offline(self, **kwargs):
-        latency = kwargs.get('latency') or 0
-        download_throughput = kwargs.get('download_throughput') or 500 * 1024
-        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
-        self.set_network_conditions(
-            offline=True, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
-        )
+    @property
+    def offline(self):
+        return OfflineContextManager(self)
 
     def get_default_zoom(self):
         """ EXPERIMENTAL - Get the current default zoom level. """
@@ -73,3 +65,51 @@ class Chrome(Chrome_, ExtendedWebdriver):
         body = json.dumps({'cmd': cmd, 'params': params})
         response = self.command_executor._request('POST', url, body)
         return response.get('value')
+
+
+class OnlineContextManager:
+    def __init__(self, driver):
+        self.driver = driver
+
+    def _go_online(self, **kwargs):
+        latency = kwargs.get('latency') or 0
+        download_throughput = kwargs.get('download_throughput') or 500 * 1024
+        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
+        self.driver.set_network_conditions(
+            offline=False, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
+        )
+
+    def __call__(self, **kwargs):
+        self._go_online(**kwargs)
+
+    def __enter__(self):
+        self._was_offline = self.driver.is_offline()
+        self.driver.online()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if getattr(self, '_was_offline'):
+            self.driver.offline()
+
+
+class OfflineContextManager:
+    def __init__(self, driver):
+        self.driver = driver
+
+    def _go_offline(self, **kwargs):
+        latency = kwargs.get('latency') or 0
+        download_throughput = kwargs.get('download_throughput') or 500 * 1024
+        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
+        self.driver.set_network_conditions(
+            offline=True, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
+        )
+
+    def __call__(self, **kwargs):
+        self._go_offline(**kwargs)
+
+    def __enter__(self):
+        self.driver.offline()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.driver.online()

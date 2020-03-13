@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="extended-webdrivers",
-    version='0.2.4',
+    version='0.2.5',
     author="Dillon Miller",
     author_email="dillon.miller@swiftpage.com",
     description="Extends the functionality of selenium webdriver.",
