@@ -1,7 +1,7 @@
-from selenium.webdriver import PhantomJS as PhantomJS_
+from selenium.webdriver import PhantomJS as _PhantomJS
 
 from .extended_webdriver import ExtendedWebdriver
 
 
-class PhantomJS(PhantomJS_, ExtendedWebdriver):
+class PhantomJS(_PhantomJS, ExtendedWebdriver):
     pass

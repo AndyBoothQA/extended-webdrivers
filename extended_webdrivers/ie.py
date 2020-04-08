@@ -1,9 +1,9 @@
-from selenium.webdriver import Ie as Ie_
+from selenium.webdriver import Ie as _Ie
 
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Ie(Ie_, ExtendedWebdriver):
+class Ie(_Ie, ExtendedWebdriver):
     def __init__(self, restricted_mode=False, **kwargs):
         super().__init__(**kwargs)
         import winreg

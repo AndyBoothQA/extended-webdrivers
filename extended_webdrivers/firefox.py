@@ -1,7 +1,7 @@
-from selenium.webdriver import Firefox as Firefox_
+from selenium.webdriver import Firefox as _Firefox
 
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Firefox(Firefox_, ExtendedWebdriver):
+class Firefox(_Firefox, ExtendedWebdriver):
     pass

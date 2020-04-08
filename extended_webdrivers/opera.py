@@ -1,7 +1,7 @@
-from selenium.webdriver.opera.webdriver import OperaDriver as OperaDriver_
+from selenium.webdriver.opera.webdriver import OperaDriver as _OperaDriver
 
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Opera(OperaDriver_, ExtendedWebdriver):
+class Opera(_OperaDriver, ExtendedWebdriver):
     pass

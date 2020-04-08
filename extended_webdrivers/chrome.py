@@ -1,17 +1,18 @@
-import json
-
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver import Chrome as Chrome_
+from selenium.webdriver import Chrome as _Chrome
 
 from .extended_webdriver import ExtendedWebdriver
 from .window import Window
 
 
-class Chrome(Chrome_, ExtendedWebdriver):
+class Chrome(_Chrome, ExtendedWebdriver):
+    def __init__(self, *args, **kwargs):
+        _Chrome.__init__(self, *args, **kwargs)
+        ExtendedWebdriver.__init__(self)
+
     def is_online(self):
         try:
-            network_conditions = self.get_network_conditions()
-            return network_conditions['offline'] is False
+            return self.get_network_conditions()['offline'] is False
         except WebDriverException:
             return True
 
@@ -58,13 +59,6 @@ class Chrome(Chrome_, ExtendedWebdriver):
     def reset_default_zoom(self):
         """ EXPERIMENTAL - Resets the default zoom level. """
         self.set_default_zoom(100)
-
-    def send_cmd(self, cmd, params):
-        resource = f'/session/{self.session_id}/chromium/send_command_and_get_result'
-        url = self.command_executor._url + resource
-        body = json.dumps({'cmd': cmd, 'params': params})
-        response = self.command_executor._request('POST', url, body)
-        return response.get('value')
 
 
 class OnlineContextManager:
