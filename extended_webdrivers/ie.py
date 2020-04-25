@@ -3,9 +3,8 @@ from selenium.webdriver import Ie as _Ie
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Ie(_Ie, ExtendedWebdriver):
+class Ie(ExtendedWebdriver, _Ie):
     def __init__(self, restricted_mode=False, **kwargs):
-        super().__init__(**kwargs)
         import winreg
 
         for zone in range(1, 5):

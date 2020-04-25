@@ -20,25 +20,29 @@ class ExtendedWebdriver:
         self._angular_available = None
         self._jquery_available = None
 
-    def get(self, *args, **kwargs):
-        super().get(*args, **kwargs)
+    def get(self, url, *args, **kwargs):
+        super().get(url)
         self._angular_available = None
         self._jquery_available = None
+        self.wait_stable(*args, **kwargs)
 
     def refresh(self, *args, **kwargs):
-        super().refresh(*args, **kwargs)
+        super().refresh()
         self._angular_available = None
         self._jquery_available = None
+        self.wait_stable(*args, **kwargs)
 
     def back(self, *args, **kwargs):
-        super().back(*args, **kwargs)
+        super().back()
         self._angular_available = None
         self._jquery_available = None
+        self.wait_stable(*args, **kwargs)
 
     def forward(self, *args, **kwargs):
-        super().forward(*args, **kwargs)
+        super().forward()
         self._angular_available = None
         self._jquery_available = None
+        self.wait_stable(*args, **kwargs)
 
     def get_angular_availability(self):
         result = self.execute_script('return window.getAllAngularRootElements != undefined')
@@ -95,9 +99,8 @@ class ExtendedWebdriver:
 
     def wait_for_stable(self, pause: float = 0.0, poll_rate: float = 0.5, timeout: int = -1) -> None:
         """
-        Goes through a series of checks to verify the the web page is ready for use.
-        Selenium does a majority of this but this adds extended functions by checking
-        jQuery, Angular and the document ready state.
+        Goes through a series of checks to verify the the web page is ready for use. Selenium does a majority of this
+        but this adds extended functions by checking jQuery, Angular and the document ready state.
 
         :param pause: The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)
         :param poll_rate: How often in seconds to check the state of the web page. (Default: 0.5)
@@ -167,12 +170,7 @@ class ExtendedWebdriver:
 
     def get_timezone_offset(self) -> int:
         """ Gets the timezone offset of the browser in minutes. """
-        script = """
-        var dt = new Date();
-        var tz = dt.getTimezoneOffset();
-        return tz
-        """
-        return self.execute_script(script)
+        return self.execute_script('return new Date().getTimezoneOffset();')
 
     @property
     def fullscreen(self) -> bool:
