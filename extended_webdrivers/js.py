@@ -97,7 +97,7 @@ class LocalStorage:
         return self.driver.execute_script("return window.localStorage.getItem(arguments[0])", key)
 
     def set_item(self, key, value):
-        self.driver.execute_script("window.localStorage.getItem(arguments[0], arguments[1])", key, value)
+        self.driver.execute_script("window.localStorage.setItem(arguments[0], arguments[1])", key, value)
 
     def clear(self):
         self.driver.execute_script("window.localStorage.clear()")
