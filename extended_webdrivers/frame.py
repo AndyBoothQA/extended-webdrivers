@@ -3,6 +3,7 @@ class Frame:
 
     def __init__(self, child_frame):
         self.browser = child_frame.parent
+        assert child_frame.tag_name == 'iframe'
         self.child_frame = child_frame
 
     def _switch_to(self):

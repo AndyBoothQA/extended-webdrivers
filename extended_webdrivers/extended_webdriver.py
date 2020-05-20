@@ -1,5 +1,7 @@
 import logging
 import time
+import warnings
+from functools import cached_property
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -10,102 +12,79 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ExtendedWebdriver:
-    """ Extends a webdriver class with additional methods. """
+    """ Mixin class that extends a webdriver instance with additional methods. """
 
     def __init__(self):
         if self is ExtendedWebdriver or not isinstance(self, WebDriver):
             raise TypeError(f'Class must inherit {WebDriver}')
         self.js = Js(self)
-        self.wait_stable_timeout = 10
-        self._angular_available = None
-        self._jquery_available = None
+        self.wait_stable_timeout = 15
 
-    def get(self, url, *args, **kwargs):
+    def _delete_availability_cache(self):
+        try:
+            del self.jquery_available
+        except AttributeError:
+            pass
+        try:
+            del self.angular_available
+        except AttributeError:
+            pass
+
+    def get(self, url):
         super().get(url)
-        self._angular_available = None
-        self._jquery_available = None
-        self.wait_stable(*args, **kwargs)
+        self._delete_availability_cache()
+        self.wait_stable()
 
-    def refresh(self, *args, **kwargs):
+    def refresh(self):
         super().refresh()
-        self._angular_available = None
-        self._jquery_available = None
-        self.wait_stable(*args, **kwargs)
+        self._delete_availability_cache()
+        self.wait_stable()
 
-    def back(self, *args, **kwargs):
+    def back(self):
         super().back()
-        self._angular_available = None
-        self._jquery_available = None
-        self.wait_stable(*args, **kwargs)
+        self._delete_availability_cache()
+        self.wait_stable()
 
-    def forward(self, *args, **kwargs):
+    def forward(self):
         super().forward()
-        self._angular_available = None
-        self._jquery_available = None
-        self.wait_stable(*args, **kwargs)
+        self._delete_availability_cache()
+        self.wait_stable()
 
-    def get_angular_availability(self):
-        result = self.execute_script('return window.getAllAngularRootElements != undefined')
-        LOGGER.debug(f'get_angular_availability() returned {result}')
-        return result
-
-    def refresh_angular_availability(self):
-        self._angular_available = self.get_angular_availability()
-
-    def is_angular_available(self):
-        if self._angular_available is None:
-            self.refresh_angular_availability()
-        return self._angular_available
+    @cached_property
+    def angular_available(self):
+        return self.execute_script('return window.getAllAngularRootElements != undefined;')
 
     def is_angular_ready(self):
-        if not self.is_angular_available():
+        if not self.angular_available:
             return True
-        result = self.execute_script(
-            'return window.getAllAngularTestabilities().every((testability) => testability.isStable())'
+        return self.execute_script(
+            'return window.getAllAngularTestabilities().every((testability) => testability.isStable());'
         )
-        LOGGER.debug(f'is_angular_ready returned {result}')
-        return result
 
-    def get_jquery_availability(self):
-        result = self.execute_script('return window.jQuery != undefined')
-        LOGGER.debug(f'get_jquery_availability() returned {result}')
-        return result
-
-    def refresh_jquery_availability(self):
-        self._jquery_available = self.get_jquery_availability()
-
-    def is_jquery_available(self):
-        if self._jquery_available is None:
-            self.refresh_jquery_availability()
-        return self._jquery_available
+    @cached_property
+    def jquery_available(self):
+        return self.execute_script('return window.jQuery != undefined;')
 
     def is_jquery_ready(self):
-        if not self.is_jquery_available():
-            LOGGER.debug('is_jquery_ready returned True')
+        if not self.jquery_available:
             return True
-        result = self.execute_script('return jQuery.active == 0')
-        LOGGER.debug(f'is_jquery_ready returned {result}')
-        return result
+        return self.execute_script('return jQuery.active == 0;')
 
     def is_document_ready(self):
-        result = self.execute_script('return document.readyState == "complete"')
-        LOGGER.debug(f'is_document_ready returned {result}')
-        return result
+        return self.execute_script("return document.readyState == 'complete'")
 
     def is_stable(self) -> bool:
-        result = self.is_angular_ready() and self.is_jquery_ready() and self.is_document_ready()
-        LOGGER.debug(f'is_stable returned {result}')
-        return result
+        return self.is_document_ready() and self.is_jquery_ready() and self.is_angular_ready()
 
     def wait_for_stable(self, pause: float = 0.0, poll_rate: float = 0.5, timeout: int = -1) -> None:
         """
-        Goes through a series of checks to verify the the web page is ready for use. Selenium does a majority of this
-        but this adds extended functions by checking jQuery, Angular and the document ready state.
+        Goes through a series of checks to verify the the web page is ready for use. Selenium does a majority of these
+        checks but this additionally checks the status of the document ready state, jQuery and Angular testabilities.
 
         :param pause: The amount of time in seconds to pause code execution before checking the web page. (Default: 0.0)
         :param poll_rate: How often in seconds to check the state of the web page. (Default: 0.5)
         :param timeout: The amount of time in seconds to wait for the browser to report back as ready. The default time
-                        is determined by the wait_stable_timeout variable.
+                        is determined by wait_stable_timeout.
         """
 
         if timeout == -1:
@@ -127,50 +106,26 @@ class ExtendedWebdriver:
 
     def set_coordinates(self, coordinates: tuple) -> None:
         """ Sets the geolocation for location services. """
-        self.execute_script(
-            '''
-        window.navigator.geolocation.getCurrentPosition = function(success) {
-            var position = {
-                "coords" : {
-                    "latitude": "%s",
-                    "longitude": "%s"
-                }
-            };
-            success(position);
-        }'''
-            % coordinates
-        )
+        warnings.warn('use driver.js.set_coordinates', DeprecationWarning)
+        self.js.set_coordinates(coordinates)
 
     def get_coordinates(self) -> tuple:
-        latitude = self.execute_script(
-            '''
-        latitude = ""
-        window.navigator.geolocation.getCurrentPosition(function(pos) {
-            latitude = pos.coords.latitude
-        });
-        return latitude
-        '''
-        )
+        warnings.warn('use driver.js.get_coordinates', DeprecationWarning)
+        return self.js.get_coordinates()
 
-        longitude = self.execute_script(
-            '''
-        longitude = ""
-        window.navigator.geolocation.getCurrentPosition(function(pos) {
-            longitude = pos.coords.longitude
-        });
-        return longitude
-        '''
-        )
-
-        return latitude, longitude
+    @property
+    def frame(self):
+        return self.execute_script('return window.frameElement')
 
     def get_current_frame(self) -> WebElement:
         """ Gets the current frame. """
-        return self.execute_script('return window.frameElement')
+        warnings.warn('use driver.frame', DeprecationWarning)
+        return self.frame
 
     def get_timezone_offset(self) -> int:
         """ Gets the timezone offset of the browser in minutes. """
-        return self.execute_script('return new Date().getTimezoneOffset();')
+        warnings.warn('use driver.js.get_timezone_offset', DeprecationWarning)
+        return self.js.get_timezone_offset()
 
     @property
     def fullscreen(self) -> bool:

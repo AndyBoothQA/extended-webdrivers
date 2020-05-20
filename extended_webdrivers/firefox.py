@@ -3,5 +3,5 @@ from selenium.webdriver import Firefox as _Firefox
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Firefox(ExtendedWebdriver, _Firefox):
+class Firefox(_Firefox, ExtendedWebdriver):
     pass

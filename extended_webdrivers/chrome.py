@@ -5,7 +5,7 @@ from .extended_webdriver import ExtendedWebdriver
 from .window import Window
 
 
-class Chrome(ExtendedWebdriver, _Chrome):
+class Chrome(_Chrome, ExtendedWebdriver):
     def __init__(self, *args, **kwargs):
         _Chrome.__init__(self, *args, **kwargs)
         ExtendedWebdriver.__init__(self)
