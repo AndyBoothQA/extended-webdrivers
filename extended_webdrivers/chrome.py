@@ -5,11 +5,7 @@ from .extended_webdriver import ExtendedWebdriver
 from .window import Window
 
 
-class Chrome(_Chrome, ExtendedWebdriver):
-    def __init__(self, *args, **kwargs):
-        _Chrome.__init__(self, *args, **kwargs)
-        ExtendedWebdriver.__init__(self)
-
+class Chrome(ExtendedWebdriver, _Chrome):
     def is_online(self):
         try:
             return self.get_network_conditions()['offline'] is False
@@ -66,12 +62,7 @@ class OnlineContextManager:
         self.driver = driver
 
     def _go_online(self, **kwargs):
-        latency = kwargs.get('latency') or 0
-        download_throughput = kwargs.get('download_throughput') or 500 * 1024
-        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
-        self.driver.set_network_conditions(
-            offline=False, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
-        )
+        self.driver.set_network_conditions(offline=False, latency=0, throughput=0)
 
         # Angular takes a very short amount of time (about 8 hundredths of a second) to report back as not ready after
         # setting the browser online if when there are pending HTTP requests. Adding a small pause allows Angular to
@@ -96,12 +87,7 @@ class OfflineContextManager:
         self.driver = driver
 
     def _go_offline(self, **kwargs):
-        latency = kwargs.get('latency') or 0
-        download_throughput = kwargs.get('download_throughput') or 500 * 1024
-        upload_throughput = kwargs.get('download_throughput') or 500 * 1024
-        self.driver.set_network_conditions(
-            offline=True, latency=latency, download_throughput=download_throughput, upload_throughput=upload_throughput
-        )
+        self.driver.set_network_conditions(offline=True, latency=0, throughput=0)
 
     def __call__(self, **kwargs):
         self._go_offline(**kwargs)

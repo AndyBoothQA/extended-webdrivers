@@ -3,7 +3,7 @@ from selenium.webdriver import Ie as _Ie
 from .extended_webdriver import ExtendedWebdriver
 
 
-class Ie(_Ie, ExtendedWebdriver):
+class Ie(ExtendedWebdriver, _Ie):
     def __init__(self, restricted_mode=False, **kwargs):
         try:
             import winreg

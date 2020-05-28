@@ -14,11 +14,16 @@ LOGGER = logging.getLogger(__name__)
 class ExtendedWebdriver:
     """ Mixin class that extends a webdriver instance with additional methods. """
 
-    def __init__(self):
-        if self is ExtendedWebdriver or not isinstance(self, WebDriver):
-            raise TypeError(f'Class must inherit {WebDriver}')
-        self.js = Js(self)
-        self.wait_stable_timeout = 15
+    wait_stable_timeout = 30
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if not issubclass(cls, WebDriver):
+            raise TypeError(f'{cls} must be of type {WebDriver}')
+
+    @cached_property
+    def js(self):
+        return Js(self)
 
     def _delete_availability_cache(self):
         try:
