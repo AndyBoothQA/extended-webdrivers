@@ -16,11 +16,6 @@ class ExtendedWebdriver:
 
     wait_stable_timeout = 30
 
-    def __init_subclass__(cls, **kwargs):
-        super().__init_subclass__(**kwargs)
-        if not issubclass(cls, WebDriver):
-            raise TypeError(f'{cls} must be of type {WebDriver}')
-
     @cached_property
     def js(self):
         return Js(self)
