@@ -20,7 +20,7 @@ class Window:
         """ Switches to the specified window if defined, otherwise the top-most window. """
         # Store the parent window and frame to access when we leave the child window.
         self.parent_window = self.browser.current_window_handle
-        self.current_frame = self.browser.get_current_frame()
+        self.current_frame = self.browser.frame
 
         # If the child window isn't defined, set it to the outermost window.
         if not self.child_window:
@@ -32,6 +32,14 @@ class Window:
 
         # Switch to the child window.
         self.browser.switch_to.window(self.child_window)
+
+        self.browser.angular = self.browser._test_angular()
+        self.browser.jquery = self.browser._test_jquery()
+
+        if self.browser.sync_angular:
+            self.browser.wait_for_angular()
+        if self.browser.sync_jquery:
+            self.browser.wait_for_jquery(self.browser._script_timeout)
 
     def __enter__(self):
         self._switch_to()
@@ -59,6 +67,14 @@ class Window:
         except NoSuchWindowException:
             # Switches to default content if somehow the parent window was closed.
             self.browser.switch_to.window(self.browser.window_handles[0])
+
+        self.browser.angular = self.browser._test_angular()
+        self.browser.jquery = self.browser._test_jquery()
+
+        if self.browser.sync_angular:
+            self.browser.wait_for_angular()
+        if self.browser.sync_jquery:
+            self.browser.wait_for_jquery(self.browser._script_timeout)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._switch_from()

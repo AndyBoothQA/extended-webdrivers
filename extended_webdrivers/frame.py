@@ -10,10 +10,18 @@ class Frame:
         """ Switches to the specified frame. """
         # Store the parent window and frame to access when we leave the child frame.
         self.parent_window = self.browser.current_window_handle
-        self.parent_frame = self.browser.get_current_frame()
+        self.parent_frame = self.browser.frame
 
         # Switch to the child frame.
         self.browser.switch_to.frame(self.child_frame)
+
+        self.browser.angular = self.browser._test_angular()
+        self.browser.jquery = self.browser._test_jquery()
+
+        if self.browser.sync_angular:
+            self.browser.wait_for_angular()
+        if self.browser.sync_jquery:
+            self.browser.wait_for_jquery(self.browser._script_timeout)
 
     def __enter__(self):
         self._switch_to()
@@ -27,6 +35,14 @@ class Frame:
         # Switch to parent frame if it exists.
         if self.parent_frame is not None:
             self.browser.switch_to.frame(self.parent_frame)
+
+        self.browser.angular = self.browser._test_angular()
+        self.browser.jquery = self.browser._test_jquery()
+
+        if self.browser.sync_angular:
+            self.browser.wait_for_angular()
+        if self.browser.sync_jquery:
+            self.browser.wait_for_jquery(self.browser._script_timeout)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._switch_from()

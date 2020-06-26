@@ -48,7 +48,8 @@ class Js:
 
     def set_coordinates(self, coordinates: tuple) -> None:
         """ Sets the geolocation for location services. """
-        self.driver.execute_script('''
+        self.driver.execute_script(
+            '''
         var latitude = arguments[0];
         var longitude = arguments[1];
         window.navigator.geolocation.getCurrentPosition = function(success) {
@@ -60,10 +61,13 @@ class Js:
             };
             success(position);
         }
-        ''', *coordinates)
+        ''',
+            *coordinates,
+        )
 
     def get_coordinates(self) -> tuple:
-        latitude = self.driver.execute_script('''
+        latitude = self.driver.execute_script(
+            '''
         latitude = ''
         window.navigator.geolocation.getCurrentPosition(function(pos) {
             latitude = pos.coords.latitude;
@@ -72,7 +76,8 @@ class Js:
         '''
         )
 
-        longitude = self.driver.execute_script('''
+        longitude = self.driver.execute_script(
+            '''
         longitude = ''
         window.navigator.geolocation.getCurrentPosition(function(pos) {
             longitude = pos.coords.longitude;
@@ -100,11 +105,15 @@ class MouseEvents:
         self.driver = driver
 
     def _trigger_mouse_event(self, element, click_event):
-        self.driver.execute_script('''
+        self.driver.execute_script(
+            '''
         var clickEvent = document.createEvent('MouseEvents');
         clickEvent.initEvent(arguments[1], true, true);
         arguments[0].dispatchEvent(clickEvent);
-        ''', element, click_event)
+        ''',
+            element,
+            click_event,
+        )
 
     def click(self, element):
         self._trigger_mouse_event(element, 'click')

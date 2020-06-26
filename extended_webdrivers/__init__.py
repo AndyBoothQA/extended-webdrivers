@@ -13,5 +13,6 @@ from .ie import Ie
 from .opera import Opera
 from .phantomjs import PhantomJS
 from .remote import Remote
+from .safari import Safari
 
-__version__ = '0.3.2'
+__version__ = '0.4.0'

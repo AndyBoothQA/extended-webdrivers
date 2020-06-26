@@ -57,56 +57,8 @@ class ExtendedChromeMixin(ExtendedWebdriver):
         self.set_default_zoom(100)
 
 
-class Chrome(ExtendedChromeMixin):
-    def is_online(self):
-        try:
-            return self.get_network_conditions()['offline'] is False
-        except WebDriverException:
-            return True
-
-    def is_offline(self):
-        return not self.is_online()
-
-    def is_open(self):
-        try:
-            return self.current_url is not None
-        except WebDriverException:
-            return False
-
-    @property
-    def online(self):
-        return OnlineContextManager(self)
-
-    @property
-    def offline(self):
-        return OfflineContextManager(self)
-
-    def get_default_zoom(self):
-        """ EXPERIMENTAL - Get the current default zoom level. """
-        self.execute_script('window.open()')
-        with Window(self):
-            self.get('chrome://settings/')
-            result = self.execute_async_script(
-                '''var callback = arguments[arguments.length - 1];
-            chrome.settingsPrivate.getDefaultZoom(function(e) {
-                callback(e)
-            })
-            '''
-            )
-            self.close()
-            return float(result)
-
-    def set_default_zoom(self, percent):
-        """ EXPERIMENTAL - Set the current default zoom level. """
-        self.execute_script('window.open()')
-        with Window(self):
-            self.get('chrome://settings/')
-            self.execute_script(f'chrome.settingsPrivate.setDefaultZoom({percent / 100});')
-            self.close()
-
-    def reset_default_zoom(self):
-        """ EXPERIMENTAL - Resets the default zoom level. """
-        self.set_default_zoom(100)
+class Chrome(ExtendedChromeMixin, _Chrome):
+    pass
 
 
 class OnlineContextManager:

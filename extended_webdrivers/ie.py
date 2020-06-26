@@ -11,6 +11,7 @@ class Ie(ExtendedWebdriver, _Ie):
             pass
         else:
             import winreg
+
             for zone in range(1, 5):
                 key = winreg.OpenKey(
                     winreg.HKEY_CURRENT_USER,
