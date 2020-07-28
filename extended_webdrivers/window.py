@@ -10,16 +10,18 @@ class NoNewWindow(Exception):
 class Window:
     """ Base class for handling switching to and from different windows __enter__ and __exit__. """
 
-    def __init__(self, browser, child_window=None, close_on_exit=True, remember_frame=True):
+    def __init__(self, browser, child_window=None, parent_window=None, close_on_exit=True, remember_frame=True):
         self.browser = browser
         self.child_window = child_window
+        self.parent_window = parent_window
         self.close_on_exit = close_on_exit
         self.remember_frame = remember_frame
 
     def _switch_to(self):
         """ Switches to the specified window if defined, otherwise the top-most window. """
         # Store the parent window and frame to access when we leave the child window.
-        self.parent_window = self.browser.current_window_handle
+        if not self.parent_window:
+            self.parent_window = self.browser.current_window_handle
         self.current_frame = self.browser.frame
 
         # If the child window isn't defined, set it to the outermost window.
@@ -27,7 +29,7 @@ class Window:
             self.child_window = self.browser.window_handles[-1]
 
         # Check if the child window is the same as the current window.
-        if self.child_window == self.browser.current_window_handle:
+        if self.child_window == self.parent_window:
             raise NoNewWindow(self.child_window)
 
         # Switch to the child window.
