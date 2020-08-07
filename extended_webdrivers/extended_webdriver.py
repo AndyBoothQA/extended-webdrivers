@@ -8,7 +8,6 @@ from selenium.webdriver.support.wait import WebDriverWait, POLL_FREQUENCY
 from .js import Js
 
 LOGGER = logging.getLogger(__name__)
-NoneType = type(None)
 
 COMMANDS_NEEDING_WAIT = [
     Command.CLICK_ELEMENT,
@@ -31,6 +30,17 @@ COMMANDS_NEEDING_WAIT = [
     Command.FIND_ELEMENTS,
     Command.FIND_CHILD_ELEMENT,
     Command.FIND_CHILD_ELEMENTS,
+]
+
+COMMANDS_NEEDING_RESYNC = [
+    Command.SWITCH_TO_CONTEXT,
+    Command.SWITCH_TO_FRAME,
+    Command.SWITCH_TO_PARENT_FRAME,
+    Command.SWITCH_TO_WINDOW,
+    Command.GET,
+    Command.REFRESH,
+    Command.GO_BACK,
+    Command.GO_FORWARD
 ]
 
 
@@ -58,7 +68,7 @@ class ExtendedWebdriver:
                 self.wait_for_document(self._script_timeout)
             return super().execute(driver_command, params=params)
         result = super().execute(driver_command, params=params)
-        if driver_command in [Command.GET, Command.REFRESH, Command.GO_BACK, Command.GO_FORWARD]:
+        if driver_command in COMMANDS_NEEDING_RESYNC:
             self.angular = self._test_angular()
             self.jquery = self._test_jquery()
         return result
@@ -79,17 +89,18 @@ class ExtendedWebdriver:
     def is_angular_ready(self):
         if not self.angular:
             return True
-        return self.execute_script(
-            'return window.getAllAngularTestabilities().every((testability) => testability.isStable());'
-        )
+        script = 'return window.getAllAngularTestabilities().every((testability) => testability.isStable());'
+        return self.execute_script(script)
 
     def wait_for_angular(self):
         if self.angular:
-            self.execute_async_script(
-                '''var callback = arguments[arguments.length - 1];
-            Promise.allSettled(window.getAllAngularTestabilities().map((t) => new Promise((resolve) => t.whenStable(resolve)))).then(callback)
-            '''
-            )
+            script = '''var cb = arguments[arguments.length - 1];
+Promise.all(window.getAllAngularTestabilities().map(t => { 
+    return new Promise(resolve => {
+        return t.whenStable(resolve);
+    })
+})).then(cb);'''
+            self.execute_async_script(script)
 
     def _test_jquery(self):
         return self.execute_script('return window.jQuery != undefined;')
@@ -113,7 +124,7 @@ class ExtendedWebdriver:
         return self.is_document_ready() and self.is_jquery_ready() and self.is_angular_ready()
 
     def wait_for_stable(
-        self, pause: float = 0.0, poll_frequency: float = POLL_FREQUENCY, timeout: (NoneType, int) = None
+        self, pause: float = 0.0, poll_frequency: float = POLL_FREQUENCY, timeout: (None, int) = None
     ) -> None:
         """
         Goes through a series of checks to verify the the web page is ready for use. Selenium does a majority of these
@@ -141,6 +152,5 @@ class ExtendedWebdriver:
     @property
     def fullscreen(self) -> bool:
         """ Returns if the window is maximized. """
-        return self.execute_script(
-            'return window.outerWidth == screen.availWidth && window.outerHeight == screen.availHeight'
-        )
+        script = 'return window.outerWidth == screen.availWidth && window.outerHeight == screen.availHeight'
+        return self.execute_script(script)
