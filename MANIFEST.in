@@ -1,3 +1,0 @@
-include extended_webdrivers/webdrivers-default.json
-include extended_webdrivers/webdrivers-mobile.json
-include extended_webdrivers/webdrivers-headless.json

@@ -1,23 +1,25 @@
 import setuptools
 
-with open("README.md", "r") as f:
+with open('README.md', 'r') as f:
     long_description = f.read()
+
+with open('requirements.txt') as f:
+    install_requires = f.read().splitlines()
 
 setuptools.setup(
     name="extended-webdrivers",
-    version='0.4.1',
+    version='0.5',
     author="Dillon Miller",
     author_email="dillon.miller@act.com",
     description="Extends the functionality of selenium webdriver.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dillonm197/extended-webdrivers",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages('src'),
+    package_dir={'': 'src'},
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=['selenium>=3.141.0'],
-    include_package_data=True,
+    install_requires=install_requires,
 )
