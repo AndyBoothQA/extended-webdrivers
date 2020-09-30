@@ -26,7 +26,12 @@ class Window:
 
         # If the child window isn't defined, set it to the outermost window.
         if not self.child_window:
-            self.child_window = self.driver.window_handles[-1]
+            if self.driver.name != 'Safari':
+                self.child_window = self.driver.window_handles[-1]
+            else:
+                window_handles = self.driver.window_handles
+                window_handles.remove(self.driver.current_window_handle)
+                self.child_window = window_handles[-1]
 
         # Check if the child window is the same as the current window.
         if self.child_window == self.parent_window:
