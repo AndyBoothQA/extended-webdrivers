@@ -2,6 +2,7 @@ import logging
 import time
 from urllib.parse import urljoin
 
+from selenium.common.exceptions import JavascriptException
 from selenium.webdriver.remote.command import Command
 from selenium.webdriver.support.wait import WebDriverWait, POLL_FREQUENCY
 
@@ -40,7 +41,7 @@ COMMANDS_NEEDING_RESYNC = [
     Command.GET,
     Command.REFRESH,
     Command.GO_BACK,
-    Command.GO_FORWARD,
+    Command.GO_FORWARD
 ]
 
 
@@ -84,13 +85,20 @@ class ExtendedWebdriver:
         self._script_timeout = time_to_wait
 
     def _test_angular(self):
-        return self.execute_script('return window.getAllAngularRootElements != undefined;')
+        try:
+            return self.execute_script('return window.getAllAngularRootElements != undefined;')
+        except JavascriptException:
+            return False
 
     def is_angular_ready(self):
         if not self.angular:
             return True
-        script = 'return window.getAllAngularTestabilities().every((testability) => testability.isStable());'
-        return self.execute_script(script)
+        script = 'return window.getAllAngularTestabilities().every((t) => t.isStable());'
+        try:
+            return self.execute_script(script)
+        except JavascriptException:
+            self._test_angular()
+            return True
 
     def wait_for_angular(self):
         if self.angular:
@@ -100,7 +108,10 @@ Promise.all(window.getAllAngularTestabilities().map(t => {
         return t.whenStable(resolve);
     })
 })).then(cb);'''
-            self.execute_async_script(script)
+            try:
+                self.execute_async_script(script)
+            except JavascriptException:
+                self._test_angular()
 
     def _test_jquery(self):
         return self.execute_script('return window.jQuery != undefined;')
@@ -108,11 +119,18 @@ Promise.all(window.getAllAngularTestabilities().map(t => {
     def is_jquery_ready(self):
         if not self.jquery:
             return True
-        return self.execute_script('return jQuery.active == 0;')
+        try:
+            return self.execute_script('return jQuery.active == 0;')
+        except JavascriptException:
+            self._test_jquery()
+            return True
 
     def wait_for_jquery(self, timeout):
         if self.jquery:
-            WebDriverWait(self, timeout).until(lambda d: d.execute_script('return jQuery.active == 0;'))
+            try:
+                WebDriverWait(self, timeout).until(lambda d: d.execute_script('return jQuery.active == 0;'))
+            except JavascriptException:
+                self._test_jquery()
 
     def is_document_ready(self):
         return self.execute_script("return document.readyState == 'complete'")
