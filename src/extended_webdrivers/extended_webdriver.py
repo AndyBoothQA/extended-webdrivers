@@ -2,7 +2,7 @@ import logging
 import time
 from urllib.parse import urljoin
 
-from selenium.common.exceptions import JavascriptException
+from selenium.common.exceptions import JavascriptException, TimeoutException
 from selenium.webdriver.remote.command import Command
 from selenium.webdriver.support.wait import WebDriverWait, POLL_FREQUENCY
 
@@ -112,6 +112,8 @@ Promise.all(window.getAllAngularTestabilities().map(t => {
                 self.execute_async_script(script)
             except JavascriptException:
                 self._test_angular()
+            except TimeoutException as e:
+                raise Exception(f'Angular not stable after {self._script_timeout} seconds.') from e
 
     def _test_jquery(self):
         return self.execute_script('return window.jQuery != undefined;')
