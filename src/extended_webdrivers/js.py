@@ -2,45 +2,45 @@ from selenium.webdriver.remote.webelement import WebElement
 
 
 class Js:
-    def __init__(self, driver):
-        self.driver = driver
-        self.console = Console(self.driver)
-        self.window = Window(self.driver)
-        self.mouse_events = MouseEvents(self.driver)
+    def __init__(self, browser):
+        self.browser = browser
+        self.console = Console(self.browser)
+        self.window = Window(self.browser)
+        self.mouse_events = MouseEvents(self.browser)
 
     def focus(self, element: WebElement) -> None:
         """ Focuses on an element. """
-        self.driver.execute_script('arguments[0].focus();', element)
+        self.browser.execute_script('arguments[0].focus();', element)
 
     def click(self, element: WebElement) -> None:
         """ Clicks on an element. """
-        self.driver.execute_script('arguments[0].click();', element)
+        self.browser.execute_script('arguments[0].click();', element)
 
     def blur(self, element: WebElement) -> None:
         """ Clear the focus from a selected web element. """
-        self.driver.execute_script('arguments[0].blur();', element)
+        self.browser.execute_script('arguments[0].blur();', element)
 
     def scroll_into_view(self, element: WebElement) -> None:
         """ Scrolls the element into view.  """
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        self.browser.execute_script("arguments[0].scrollIntoView();", element)
 
     def get_bounding_client_rect(self, element: WebElement) -> dict:
         """ Gets the bounding client rect of an element. """
-        return self.driver.execute_script('return arguments[0].getBoundingClientRect();', element)
+        return self.browser.execute_script('return arguments[0].getBoundingClientRect();', element)
 
     def get_attribute(self, element: WebElement, attribute: str):
         """ Gets an element's attribute. """
-        return self.driver.execute_script('return arguments[0].getAttribute(arguments[1]);', element, attribute)
+        return self.browser.execute_script('return arguments[0].getAttribute(arguments[1]);', element, attribute)
 
     def set_attribute(self, element: WebElement, attribute: str, value):
         """ Sets an element's attribute. """
-        return self.driver.execute_script(
+        return self.browser.execute_script(
             'return arguments[0].setAttribute(arguments[1], arguments[2]);', element, attribute, value
         )
 
     def remove_attribute(self, element: WebElement, attribute: str):
         """ Removes an element's attribute. """
-        return self.driver.execute_script('return arguments[0].removeAttribute(arguments[1]);', element, attribute)
+        return self.browser.execute_script('return arguments[0].removeAttribute(arguments[1]);', element, attribute)
 
     def get_timezone_offset(self) -> int:
         """ Gets the timezone offset of the browser in minutes. """
@@ -59,7 +59,7 @@ window.navigator.geolocation.getCurrentPosition = function(success) {
     };
     success(position);
 }'''
-        self.driver.execute_script(
+        self.browser.execute_script(
             script,
             *coordinates,
         )
@@ -72,29 +72,29 @@ window.navigator.geolocation.getCurrentPosition(function(pos) {
     longitude = pos.coords.longitude;
 });
 return [latitude, longitude];'''
-        return self.driver.execute_script(script)
+        return self.browser.execute_script(script)
 
 
 class Console:
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, browser):
+        self.browser = browser
 
     def log(self, data: str):
-        self.driver.execute_script('console.log(arguments[0]);', data)
+        self.browser.execute_script('console.log(arguments[0]);', data)
 
     def clear(self):
-        self.driver.execute_script('console.clear();')
+        self.browser.execute_script('console.clear();')
 
 
 class MouseEvents:
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, browser):
+        self.browser = browser
 
     def _trigger_mouse_event(self, element, click_event):
         script = '''var clickEvent = document.createEvent('MouseEvents');
 clickEvent.initEvent(arguments[1], true, true);
 arguments[0].dispatchEvent(clickEvent);'''
-        self.driver.execute_script(script, element, click_event)
+        self.browser.execute_script(script, element, click_event)
 
     def click(self, element):
         self._trigger_mouse_event(element, 'click')
@@ -110,29 +110,29 @@ arguments[0].dispatchEvent(clickEvent);'''
 
 
 class Window:
-    def __init__(self, driver):
-        self.driver = driver
-        self.local_storage = LocalStorage(self.driver)
-        self.indexed_db = IndexedDB(self.driver)
+    def __init__(self, browser):
+        self.browser = browser
+        self.local_storage = LocalStorage(self.browser)
+        self.indexed_db = IndexedDB(self.browser)
 
 
 class LocalStorage:
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, browser):
+        self.browser = browser
 
     def get_item(self, key):
-        return self.driver.execute_script('return window.localStorage.getItem(arguments[0]);', key)
+        return self.browser.execute_script('return window.localStorage.getItem(arguments[0]);', key)
 
     def set_item(self, key, value):
-        self.driver.execute_script('window.localStorage.setItem(arguments[0], arguments[1]);', key, value)
+        self.browser.execute_script('window.localStorage.setItem(arguments[0], arguments[1]);', key, value)
 
     def clear(self):
-        self.driver.execute_script('window.localStorage.clear();')
+        self.browser.execute_script('window.localStorage.clear();')
 
 
 class IndexedDB:
-    def __init__(self, driver):
-        self.driver = driver
+    def __init__(self, browser):
+        self.browser = browser
 
     def get_database_object(self, database_name: str, object_name: str) -> dict:
         """Gets an object from a database in IndexedDB by name.
@@ -164,7 +164,7 @@ db_request.onsuccess = function(event) {
         callback(data_request.result);
     };
 };'''
-        return self.driver.execute_async_script(script, database_name, object_name)
+        return self.browser.execute_async_script(script, database_name, object_name)
 
     def delete_database(self, database_name: str):
         script = '''var databaseName = arguments[0];
@@ -185,4 +185,4 @@ req.onerror = function () {
 req.onblocked = function () {
     callback(false);
 };'''
-        return self.driver.execute_async_script(script, database_name)
+        return self.browser.execute_async_script(script, database_name)
